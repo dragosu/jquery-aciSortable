@@ -1,0 +1,77 @@
+body {
+    position:relative;
+    width:880px;
+    font-size:14px;
+}
+.sort{
+    width:400px;
+    height:500px;
+    display:block;
+    overflow-y:scroll;
+    border:1px solid #000;
+}
+.float {
+    overflow:visible;
+}
+.float .sort {
+    float:left;
+    margin:0 10px 10px 0;
+}
+ul{
+    padding:10px;
+    border:1px solid #000;
+    display:block;
+    background-color:#fff;
+    list-style:none;
+    margin:0;
+}
+.sort>ul {
+    border:none;
+}
+li{
+    padding:10px;
+    display:block;
+    background-color:#fff;
+}
+li.sorted {
+    background-color:#ccc;
+}
+ul.exclude, ul.exclude>li, li.exclude {
+    background-color:#888 !important;
+}
+.aciSortablePlace2 {
+    border:2px dashed #000;
+    background-color: #e3edf9;
+}            
+.options {
+    position:fixed;
+    top:20px;
+    left:50%;
+    width:350px;
+    background-color: #e3edf9;
+    border:1px solid #000;
+    padding:20px;
+}
+.options label {
+    display:block;
+    padding:5px;
+}
+.dragHandle {
+    width:20px;
+    height:20px;
+    margin-right:4px;
+    background-color:green;
+    display:inline-block;
+    vertical-align:middle;
+    cursor:move;
+}
+.customPlaceholder{
+    border:2px dashed #ccc;
+}
+.customHelper {
+    position:absolute;
+    width:350px;
+}
+.events ul {
+    background-color:#ffe45c;    
+}

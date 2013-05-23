@@ -1,0 +1,37 @@
+{
+    "name": "aciSortable",
+    "title": "aciSortable - A jQuery sortable plugin",
+    "description": "Sort a list of items (including nested items) in a drag & drop style. Child containers can be created on the fly to allow drag & drop in a tree like structure. Supports drag & drop between sortables. Using callbacks and/or events you can make aciSortable use your own look and feel.",
+    "keywords": [
+    "sortable",
+    "nested",
+    "items"
+    ],
+    "version": "1.0.0",
+    "author": {
+        "name": "Dragos Ursu",
+        "email":"dragosu@acoderinsights.ro",
+        "url": "https://github.com/dragosu"
+    },
+    "maintainers": [{
+        "name": "Dragos Ursu",
+        "email":"dragosu@acoderinsights.ro",
+        "url": "https://github.com/dragosu"
+    }],
+    "licenses": [{
+        "type": "MIT",
+        "url": "http://acoderinsights.ro/source/aciSortable/mit-licence.txt"
+    },{
+        "type": "GPLv2",
+        "url": "http://acoderinsights.ro/source/aciSortable/gpl-v2-licence.txt"
+    }],
+    "homepage": "http://acoderinsights.ro",
+    "demo": "http://acoderinsights.ro/source/aciSortable/aciSortable.html",
+    "download": "http://acoderinsights.ro/source/zip/aciSortable.zip",
+    "docs": "http://acoderinsights.ro/en/aciSortable-sorting-list-elements-jQuery",
+    "bugs": "https://github.com/dragosu/jquery-aciSortable/issues",
+    "dependencies": {
+        "jquery": ">=1.7.1",
+        "aciPlugin": ">=1.2.0"
+    }
+}

@@ -1,0 +1,1959 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+        <meta name="robots" content="index, follow" />
+        <title>aciSortable demo - Sort a list of items (including nested items)</title>
+        <meta name="description" content="A demo to show you how aciSortable can be used, check the plugin page to see all the functions exposed by the API" />
+        <meta name="keywords" content="aciSortable, sort items, sortable, nested, javascript, jQuery" />
+        <link rel="stylesheet" type="text/css" href="css/aciSortable.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="css/demo.css" media="all" />
+        <link rel="stylesheet" type="text/css" href="css/jquery-ui.css" media="all" />
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.aciPlugin.min.js"></script>
+        <script type="text/javascript" src="js/jquery.aciSortable.js"></script>
+    </head>
+    <body>
+
+        <div>
+
+            <p>Note: <b>only on examples that implement the exclude option</b> the 
+                dark grey background items/containers are items that can't be dragged and containers that can't receive dragged items.</p>
+
+            <p>Please note that the callback functions from inside the options object (used to initialise the sortable)
+                have a default implementation needed for the sortable to work. You can provide your own implementations on init, but you must ensure
+                all are valid as required by the plugin.</p>
+
+            <p>Using with the default options (see below for examples using the options callbacks and custom animations; 
+                <b style="color:red">Note</b>: the yellow background examples are made using the events instead of options callbacks, to disable
+                the default implementation of options callbacks - when using events - pass NULL to the options callbacks on init):</p>
+
+            <div class="sort sort1">
+                <ul>
+                    <li>Item 1 
+                        <input type="checkbox" />
+                        <a href="#" title="">link</a>
+                        <input type="text" />
+                        <button type="button">Click Me!</button>                     
+                        <select>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                        <textarea>text area</textarea>                                      
+                    </li>
+                    <li>Item 2 
+                        <ul class="exclude">
+                            <li>Item 2.1</li>
+                            <li>Item 2.2</li>
+                            <li>Item 2.3</li>
+                            <li>Item 2.4
+                                <ul>
+                                    <li>Item 2.4.1</li>
+                                    <li>Item 2.4.2</li>
+                                    <li>Item 2.4.3
+                                        <ul>
+                                        </ul>                                    
+                                    </li>
+                                </ul>                            
+                            </li>
+                            <li>Item 2.5</li>
+                        </ul>
+                    </li>
+                    <li>Item 3</li>
+                    <li>Item 4
+                        <ul>
+                        </ul>
+                    </li>
+                    <li>Item 5</li>
+                    <li>Item 6</li>
+                    <li>Item 7</li>
+                    <li class="exclude">Item 8</li>
+                    <li>Item 9</li>
+                    <li>Item 10</li>
+                    <li>Item 11</li>
+                    <li>Item 12
+                        <ul>
+                            <li>Item 12.1</li>
+                        </ul>                     
+                    </li>
+                    <li>Item 13</li>
+                    <li>Item 14</li>
+                    <li>Item 15</li>
+                    <li>Item 16</li>
+                    <li>Item 17</li>
+                    <li>Item 18</li>
+                    <li>Item 19</li>
+                    <li>Item 20</li>
+                    <li>Item 21</li>
+                    <li>Item 22</li>
+                    <li>Item 23</li>
+                    <li>Item 24</li>
+                    <li>Item 25</li>
+                    <li>Item 26</li>
+                </ul>
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort1').aciSortable();
+
+                });
+
+            </script>                
+
+            <p>Using the options.exclude to exclude items to be dragged and containers to receive dragged items:</p>
+
+            <div class="sort sort2">
+                <ul>
+                    <li>Item 1
+                        <input type="checkbox" />
+                        <a href="#" title="">link</a>
+                        <input type="text" />
+                        <button type="button">Click Me!</button>                     
+                        <select>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                        <textarea>text area</textarea>                      
+                    </li>
+                    <li>Item 2 
+                        <ul class="exclude">
+                            <li>Item 2.1</li>
+                            <li>Item 2.2</li>
+                            <li>Item 2.3</li>
+                            <li>Item 2.4
+                                <ul>
+                                    <li>Item 2.4.1</li>
+                                    <li>Item 2.4.2</li>
+                                    <li>Item 2.4.3
+                                        <ul>
+                                        </ul>                                    
+                                    </li>
+                                </ul>                            
+                            </li>
+                            <li>Item 2.5</li>
+                        </ul>
+                    </li>
+                    <li>Item 3</li>
+                    <li>Item 4
+                        <ul>
+                        </ul>
+                    </li>
+                    <li>Item 5</li>
+                    <li>Item 6</li>
+                    <li>Item 7</li>
+                    <li class="exclude">Item 8</li>
+                    <li>Item 9</li>
+                    <li>Item 10</li>
+                    <li>Item 11</li>
+                    <li>Item 12
+                        <ul>
+                            <li>Item 12.1</li>
+                        </ul>                     
+                    </li>
+                    <li>Item 13</li>
+                    <li>Item 14</li>
+                    <li>Item 15</li>
+                    <li>Item 16</li>
+                    <li>Item 17</li>
+                    <li>Item 18</li>
+                    <li>Item 19</li>
+                    <li>Item 20</li>
+                    <li>Item 21</li>
+                    <li>Item 22</li>
+                    <li>Item 23</li>
+                    <li>Item 24</li>
+                    <li>Item 25</li>
+                    <li>Item 26</li>
+                </ul>
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort2').aciSortable({
+                        exclude: '.exclude'
+                    });
+
+                });
+
+            </script>            
+
+            <p>Show how options.before and options.valid callbacks can be used
+                to prevent dragging a item and to prevent drop to a target (instead of using options.exclude as in the prevoius example):</p>
+
+            <p>Note: invalid drop targets - like before/after the sorted item, parent dragged over his childrens, item dragged outside of the top container etc.
+                are not considered when calling options.before and options.valid. They are seen from the start as invalid drop targets.</p>            
+
+            <div class="float">
+
+                <div class="sort sort3">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort3b events">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>                
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort3').aciSortable({
+                        before: function(item) {
+                            // the same implementation as the default but without using the options.exclude
+                            var container = this.containerFrom(item);
+                            return !container.hasClass('exclude') && !item.hasClass('exclude');
+                        },
+                        valid: function(item, hover, before, isContainer, helper) {
+                            // the same implementation as the default but without using the options.exclude
+                            if (isContainer) {
+                                return !hover.hasClass('exclude');
+                            } else {
+                                var container = this.containerFrom(hover);
+                                return !container.hasClass('exclude') && !hover.hasClass('exclude');
+                            }
+                        }
+                    });
+
+                    // same thing but using the events
+
+                    $('.sort3b').bind('acisortable', function(event, api, eventName, params) {
+                        switch (eventName) {
+                            case 'before':
+                                var container = api.containerFrom(params.item);
+                                return !container.hasClass('exclude') && !params.item.hasClass('exclude');
+                                break;
+                            case 'valid':
+                                if (params.isContainer) {
+                                    return !params.hover.hasClass('exclude');
+                                } else {
+                                    var container = api.containerFrom(params.hover);
+                                    return !container.hasClass('exclude') && !params.hover.hasClass('exclude');
+                                }
+                                break;
+                        }
+                    });
+
+                    $('.sort3b').aciSortable();
+
+                });
+
+            </script>          
+
+            <p>Add an extra class on the sorted item and change his background (using the options.start and options.end callbacks). The 
+                class is removed once the dragged item is released:</p>
+
+            <div class="float">
+
+                <div class="sort sort4">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort4b events">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>                
+
+            </div>                
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort4').aciSortable({
+                        exclude: '.exclude',
+                        start: function(item, placeholder, helper) {
+                            item.addClass('sorted');
+                            // use the default implementation
+                            $.fn.aciSortable.defaults.start.call(this, item, placeholder, helper);
+                        },
+                        end: function(item, placeholder, helper) {
+                            item.removeClass('sorted');
+                            // use the default implementation
+                            $.fn.aciSortable.defaults.end.call(this, item, placeholder, helper);
+                        }
+                    });
+
+                    // same thing but using the events
+
+                    $('.sort4b').bind('acisortable', function(event, api, eventName, params) {
+                        switch (eventName) {
+                            case 'start':
+                                params.item.addClass('sorted');
+                                break;
+                            case 'end':
+                                params.item.removeClass('sorted');
+                                break;
+                        }
+                    });
+
+                    $('.sort4b').aciSortable({
+                        exclude: '.exclude'
+                    });
+
+                });
+
+            </script>               
+
+            <p>Hide the dragged item and show the item contents inside the placeholder (using options.start and options.end):</p>
+
+            <div class="float">
+
+                <div class="sort sort5">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                          
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort5b events">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                          
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                // save options for later use (see next example)
+
+                var options = {
+                    exclude: '.exclude',
+                    placeholder: '<li class="aciSortablePlace2"></li>',
+                    placeholderSelector: '.aciSortablePlace2',
+                    start: function(item, placeholder, helper) {
+                        item.hide();
+                        placeholder.html(item.html());
+                        // use the default implementation
+                        $.fn.aciSortable.defaults.start.call(this, item, placeholder, helper);
+                    },
+                    end: function(item, placeholder, helper) {
+                        item.show();
+                        // use the default implementation
+                        $.fn.aciSortable.defaults.end.call(this, item, placeholder, helper);
+                    }
+                };
+
+                $(function() {
+
+                    $('.sort5').aciSortable(options);
+
+                    // same thing but using the events
+
+                    $('.sort5b').bind('acisortable', function(event, api, eventName, params) {
+                        switch (eventName) {
+                            case 'start':
+                                params.item.hide();
+                                params.placeholder.html(params.item.html());
+                                break;
+                            case 'end':
+                                params.item.show();
+                                break;
+                        }
+                    });
+
+                    $('.sort5b').aciSortable({
+                        exclude: '.exclude',
+                        placeholder: '<li class="aciSortablePlace2"></li>',
+                        placeholderSelector: '.aciSortablePlace2'
+                    });
+
+                });
+
+            </script>            
+
+            <p>Same as previous example ... but always show the placeholder (using the options.gluedPlaceholder option):</p>
+
+            <p>Note: once dropped, the dragged item will be moved where the placeholder is (even if the mouse was outside the top container - for example).</p>
+
+            <div class="sort sort6">
+                <ul>
+                    <li>Item 1
+                        <input type="checkbox" />
+                        <a href="#" title="">link</a>
+                        <input type="text" />
+                        <button type="button">Click Me!</button>                     
+                        <select>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                        <textarea>text area</textarea>                      
+                    </li>
+                    <li>Item 2 
+                        <ul class="exclude">
+                            <li>Item 2.1</li>
+                            <li>Item 2.2</li>
+                            <li>Item 2.3</li>
+                            <li>Item 2.4
+                                <ul>
+                                    <li>Item 2.4.1</li>
+                                    <li>Item 2.4.2</li>
+                                    <li>Item 2.4.3
+                                        <ul>
+                                        </ul>                                    
+                                    </li>
+                                </ul>                            
+                            </li>
+                            <li>Item 2.5</li>
+                        </ul>
+                    </li>
+                    <li>Item 3</li>
+                    <li>Item 4
+                        <ul>
+                        </ul>
+                    </li>
+                    <li>Item 5</li>
+                    <li>Item 6</li>
+                    <li>Item 7</li>
+                    <li class="exclude">Item 8</li>
+                    <li>Item 9</li>
+                    <li>Item 10</li>
+                    <li>Item 11</li>
+                    <li>Item 12
+                        <ul>
+                            <li>Item 12.1</li>
+                        </ul>                     
+                    </li>
+                    <li>Item 13</li>
+                    <li>Item 14</li>
+                    <li>Item 15</li>
+                    <li>Item 16</li>
+                    <li>Item 17</li>
+                    <li>Item 18</li>
+                    <li>Item 19</li>
+                    <li>Item 20</li>
+                    <li>Item 21</li>
+                    <li>Item 22</li>
+                    <li>Item 23</li>
+                    <li>Item 24</li>
+                    <li>Item 25</li>
+                    <li>Item 26</li>
+                </ul>
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    // using the 'options' object from the previous example
+
+                    options.gluedPlaceholder = true;
+
+                    $('.sort6').aciSortable(options);
+
+                });
+
+            </script>                    
+
+            <p>Show the item content inside the helper (using the options.start callback), position the helper relative to the starting drag point
+                (using options.relative) and set opacity (so we can see the drop target beneath the helper):</p>
+
+            <div class="float">
+
+                <div class="sort sort7">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort7b events">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>                
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort7').aciSortable({
+                        exclude: '.exclude',
+                        relative: true,
+                        start: function(item, placeholder, helper) {
+                            helper.css('opacity', 0.4).html(item.html());
+                        }
+                    });
+
+                    // same thing but using the events
+
+                    $('.sort7b').bind('acisortable', function(event, api, eventName, params) {
+                        switch (eventName) {
+                            case 'start':
+                                params.helper.css('opacity', 0.4).html(params.item.html());
+                                break;
+                        }
+                    });
+
+                    $('.sort7b').aciSortable({
+                        exclude: '.exclude',
+                        relative: true
+                    });
+
+                });
+
+            </script>      
+
+            <p>Show a custom helper content based on the placeholder position (using the options.drag and options.valid callbacks):</p>
+
+            <div class="float">
+
+                <div class="sort sort8">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort8b events">
+                    <ul>
+                        <li>Item 1
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>                
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort8').aciSortable({
+                        exclude: '.exclude',
+                        drag: function(item, placeholder, isValid, helper) {
+                            // test if placeholder is not inserted into the DOM and not a valid drop target
+                            if (!placeholder.parent().length && !isValid) {
+                                // get item text
+                                var itemText = item.clone();
+                                itemText.find('ul').remove();
+                                itemText = itemText.text();
+                                helper.html('please select a valid drop target for <b>' + itemText + '</b>');
+                            }
+                        },
+                        valid: function(item, hover, before, isContainer, helper) {
+                            // use the default implementation
+                            if ($.fn.aciSortable.defaults.valid.call(this, item, hover, before, isContainer, helper)) {
+                                // get item text
+                                var itemText = item.clone();
+                                itemText.find('ul').remove();
+                                itemText = itemText.text();
+                                // get hover item text
+                                var hoverText = isContainer ? this.itemFrom(hover).clone() : hover.clone();
+                                hoverText.find('ul').remove();
+                                hoverText = hoverText.text();
+                                if (isContainer) {
+                                    // if the item is to be inserted into a empty container
+                                    helper.html('move <b>' + itemText + '</b> inside <b>' + hoverText + '</b>');
+                                } else {
+                                    // if the item is to be added before/after another one
+                                    helper.html('move <b>' + itemText + '</b> ' + (before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                }
+                                return true;
+                            }
+                            return false;
+                        }
+                    });
+
+                    // same thing but using the events
+
+                    $('.sort8b').bind('acisortable', function(event, api, eventName, params) {
+                        switch (eventName) {
+                            case 'drag':
+                                // test if placeholder is not inserted into the DOM and not a valid drop target
+                                if (!params.placeholder.parent().length && !params.isValid) {
+                                    // get item text
+                                    var itemText = params.item.clone();
+                                    itemText.find('ul').remove();
+                                    itemText = itemText.text();
+                                    params.helper.html('please select a valid drop target for <b>' + itemText + '</b>');
+                                }
+                                break;
+                            case 'valid':
+                                // get item text
+                                var itemText = params.item.clone();
+                                itemText.find('ul').remove();
+                                itemText = itemText.text();
+                                // get hover item text
+                                var hoverText = params.isContainer ? api.itemFrom(params.hover).clone() : params.hover.clone();
+                                hoverText.find('ul').remove();
+                                hoverText = hoverText.text();
+                                if (params.isContainer) {
+                                    // if the item is to be inserted into a empty container
+                                    params.helper.html('move <b>' + itemText + '</b> inside <b>' + hoverText + '</b>');
+                                } else {
+                                    // if the item is to be added before/after another one
+                                    params.helper.html('move <b>' + itemText + '</b> ' + (params.before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                }
+                                break;
+                        }
+                    });
+
+                    $('.sort8b').aciSortable({
+                        exclude: '.exclude'
+                    });
+
+                });
+
+            </script>        
+
+            <p>Use options.handle to allow only dragging by a handle (the green square):</p>
+
+            <div class="sort sort9">
+                <ul>
+                    <li><span class='dragHandle'></span>Item 1
+                        <input type="checkbox" />
+                        <a href="#" title="">link</a>
+                        <input type="text" />
+                        <button type="button">Click Me!</button>                     
+                        <select>
+                            <option value="volvo">Volvo</option>
+                            <option value="saab">Saab</option>
+                            <option value="mercedes">Mercedes</option>
+                            <option value="audi">Audi</option>
+                        </select>
+                        <textarea>text area</textarea>                      
+                    </li>
+                    <li><span class='dragHandle'></span>Item 2 
+                        <ul class="exclude">
+                            <li><span class='dragHandle'></span>Item 2.1</li>
+                            <li><span class='dragHandle'></span>Item 2.2</li>
+                            <li><span class='dragHandle'></span>Item 2.3</li>
+                            <li><span class='dragHandle'></span>Item 2.4
+                                <ul>
+                                    <li><span class='dragHandle'></span>Item 2.4.1</li>
+                                    <li><span class='dragHandle'></span>Item 2.4.2</li>
+                                    <li><span class='dragHandle'></span>Item 2.4.3
+                                        <ul>
+                                        </ul>                                    
+                                    </li>
+                                </ul>                            
+                            </li>
+                            <li><span class='dragHandle'></span>Item 2.5</li>
+                        </ul>
+                    </li>
+                    <li><span class='dragHandle'></span>Item 3</li>
+                    <li><span class='dragHandle'></span>Item 4
+                        <ul>
+                        </ul>
+                    </li>
+                    <li><span class='dragHandle'></span>Item 5</li>
+                    <li><span class='dragHandle'></span>Item 6</li>
+                    <li><span class='dragHandle'></span>Item 7</li>
+                    <li class="exclude"><span class='dragHandle'></span>Item 8</li>
+                    <li><span class='dragHandle'></span>Item 9</li>
+                    <li><span class='dragHandle'></span>Item 10</li>
+                    <li><span class='dragHandle'></span>Item 11</li>
+                    <li><span class='dragHandle'></span>Item 12
+                        <ul>
+                            <li><span class='dragHandle'></span>Item 12.1</li>
+                        </ul>                     
+                    </li>
+                    <li><span class='dragHandle'></span>Item 13</li>
+                    <li><span class='dragHandle'></span>Item 14</li>
+                    <li><span class='dragHandle'></span>Item 15</li>
+                    <li><span class='dragHandle'></span>Item 16</li>
+                    <li><span class='dragHandle'></span>Item 17</li>
+                    <li><span class='dragHandle'></span>Item 18</li>
+                    <li><span class='dragHandle'></span>Item 19</li>
+                    <li><span class='dragHandle'></span>Item 20</li>
+                    <li><span class='dragHandle'></span>Item 21</li>
+                    <li><span class='dragHandle'></span>Item 22</li>
+                    <li><span class='dragHandle'></span>Item 23</li>
+                    <li><span class='dragHandle'></span>Item 24</li>
+                    <li><span class='dragHandle'></span>Item 25</li>
+                    <li><span class='dragHandle'></span>Item 26</li>
+                </ul>
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort9').aciSortable({
+                        exclude: '.exclude',
+                        handle: '.dragHandle'
+                    });
+
+                });
+
+            </script>      
+
+            <p>Connect more sortables together for drag&drop. Notice the use of the options.connectDrop for each of them, meaning each of the 
+                aciSortable can drop items to the other aciSortable(s):</p>
+
+            <div class="float">
+
+                <div class="sort sort10">
+                    <ul>
+                        <li></span>Item 1A
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li></span>Item 2 
+                            <ul class="exclude">
+                                <li></span>Item 2.1</li>
+                                <li></span>Item 2.2</li>
+                                <li></span>Item 2.3</li>
+                                <li></span>Item 2.4
+                                    <ul>
+                                        <li></span>Item 2.4.1</li>
+                                        <li></span>Item 2.4.2</li>
+                                        <li></span>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li></span>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li></span>Item 3</li>
+                        <li></span>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li></span>Item 5</li>
+                        <li></span>Item 6</li>
+                        <li></span>Item 7</li>
+                        <li class="exclude"></span>Item 8</li>
+                        <li></span>Item 9</li>
+                        <li></span>Item 10</li>
+                        <li></span>Item 11</li>
+                        <li></span>Item 12
+                            <ul>
+                                <li></span>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li></span>Item 13</li>
+                        <li></span>Item 14</li>
+                        <li></span>Item 15</li>
+                        <li></span>Item 16</li>
+                        <li></span>Item 17</li>
+                        <li></span>Item 18</li>
+                        <li></span>Item 19</li>
+                        <li></span>Item 20</li>
+                        <li></span>Item 21</li>
+                        <li></span>Item 22</li>
+                        <li></span>Item 23</li>
+                        <li></span>Item 24</li>
+                        <li></span>Item 25</li>
+                        <li></span>Item 26</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort11">
+                    <ul>
+                        <li></span>Item 1B
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li></span>Item 2 
+                            <ul class="exclude">
+                                <li></span>Item 2.1</li>
+                                <li></span>Item 2.2</li>
+                                <li></span>Item 2.3</li>
+                                <li></span>Item 2.4
+                                    <ul>
+                                        <li></span>Item 2.4.1</li>
+                                        <li></span>Item 2.4.2</li>
+                                        <li></span>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li></span>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li></span>Item 3</li>
+                        <li></span>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li></span>Item 5</li>
+                        <li></span>Item 6</li>
+                        <li></span>Item 7</li>
+                        <li class="exclude"></span>Item 8</li>
+                        <li></span>Item 9</li>
+                        <li></span>Item 10</li>
+                        <li></span>Item 11</li>
+                        <li></span>Item 12
+                            <ul>
+                                <li></span>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li></span>Item 13</li>
+                        <li></span>Item 14</li>
+                        <li></span>Item 15</li>
+                        <li></span>Item 16</li>
+                        <li></span>Item 17</li>
+                        <li></span>Item 18</li>
+                        <li></span>Item 19</li>
+                        <li></span>Item 20</li>
+                        <li></span>Item 21</li>
+                        <li></span>Item 22</li>
+                        <li></span>Item 23</li>
+                        <li></span>Item 24</li>
+                        <li></span>Item 25</li>
+                        <li></span>Item 26</li>
+                    </ul>
+                </div>     
+
+                <div class="sort sort12">
+                    <ul>
+                        <li></span>Item 1C
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li></span>Item 2 
+                            <ul class="exclude">
+                                <li></span>Item 2.1</li>
+                                <li></span>Item 2.2</li>
+                                <li></span>Item 2.3</li>
+                                <li></span>Item 2.4
+                                    <ul>
+                                        <li></span>Item 2.4.1</li>
+                                        <li></span>Item 2.4.2</li>
+                                        <li></span>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li></span>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li></span>Item 3</li>
+                        <li></span>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li></span>Item 5</li>
+                        <li></span>Item 6</li>
+                        <li></span>Item 7</li>
+                        <li class="exclude"></span>Item 8</li>
+                        <li></span>Item 9</li>
+                        <li></span>Item 10</li>
+                        <li></span>Item 11</li>
+                        <li></span>Item 12
+                            <ul>
+                                <li></span>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li></span>Item 13</li>
+                        <li></span>Item 14</li>
+                        <li></span>Item 15</li>
+                        <li></span>Item 16</li>
+                        <li></span>Item 17</li>
+                        <li></span>Item 18</li>
+                        <li></span>Item 19</li>
+                        <li></span>Item 20</li>
+                        <li></span>Item 21</li>
+                        <li></span>Item 22</li>
+                        <li></span>Item 23</li>
+                        <li></span>Item 24</li>
+                        <li></span>Item 25</li>
+                        <li></span>Item 26</li>
+                    </ul>
+                </div>                
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort10').aciSortable({
+                        exclude: '.exclude',
+                        connectDrop: '.sort11,.sort12'
+                    });
+
+                    $('.sort11').aciSortable({
+                        exclude: '.exclude',
+                        connectDrop: '.sort10,.sort12'
+                    });
+
+                    $('.sort12').aciSortable({
+                        exclude: '.exclude',
+                        connectDrop: '.sort10,.sort11'
+                    });
+
+                });
+
+            </script>                 
+
+            <p>Using custom animations:</p>
+
+            <div class="float">
+
+                <div class="sort sort13">
+                    <ul>
+                        <li>Item 1A
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>            
+
+                <div class="sort sort14">
+                    <ul>
+                        <li>Item 1B
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>         
+
+                <div class="sort sort15">
+                    <ul>
+                        <li>Item 1C
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>                       
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    // on drag - slideUp the item, show his content inside helper (with a fadeIn)
+                    // on drop - slideDown the item, animate the helper until it gets over the item
+                    // and apply a fadeOut in the same time
+
+                    $('.sort13').aciSortable({
+                        exclude: '.exclude',
+                        helper: '<div class="customHelper"></div>',
+                        helperSelector: '.customHelper',
+                        connectDrop: '.sort14,.sort15',
+                        start: function(item, placeholder, helper) {
+                            // show item inside helper
+                            helper.css({
+                                opacity: 0.8
+                            }).html(item.html());
+                            // do not fadeIn helper if the item is from other sortable
+                            if (this.hasItem(item)) {
+                                helper.fadeIn();
+                            }
+                            item.slideUp();
+                        },
+                        end: function(item, placeholder, helper) {
+                            if (placeholder.parent().length) {
+                                // add item after placeholder
+                                placeholder.after(item).detach();
+                            }
+                            item.slideDown();
+                            var top = $(window).scrollTop();
+                            var left = $(window).scrollLeft();
+                            var rect = item.get(0).getBoundingClientRect();
+                            // animate helper to item position
+                            helper.animate({
+                                top: rect.top + top,
+                                left: rect.left + left,
+                                opacity: 0
+                            },
+                            {
+                                complete: function() {
+                                    // when completed detach the helper
+                                    helper.detach();
+                                }
+                            });
+                        }
+                    });
+
+                    // same as previous example but show a empty space while
+                    // the helper is animated and gets in the final item position
+
+                    $('.sort14').aciSortable({
+                        exclude: '.exclude',
+                        helper: '<div class="customHelper"></div>',
+                        helperSelector: '.customHelper',
+                        connectDrop: '.sort13,.sort15',
+                        start: function(item, placeholder, helper) {
+                            // show item inside helper
+                            helper.css({
+                                opacity: 0.8
+                            }).html(item.html());
+                            // do not fadeIn helper if the item is from other sortable
+                            if (this.hasItem(item)) {
+                                helper.fadeIn();
+                            }
+                            item.slideUp();
+                        },
+                        end: function(item, placeholder, helper) {
+                            if (placeholder.parent().length) {
+                                // add item after placeholder
+                                placeholder.after(item).detach();
+                            }
+                            item.css('visibility', 'hidden').stop(true, true).show();
+                            var top = $(window).scrollTop();
+                            var left = $(window).scrollLeft();
+                            var rect = item.get(0).getBoundingClientRect();
+                            // animate helper to item position
+                            helper.animate({
+                                top: rect.top + top,
+                                left: rect.left + left
+                            },
+                            {
+                                complete: function() {
+                                    // when completed detach the helper
+                                    helper.detach();
+                                    item.css('visibility', 'visible');
+                                }
+                            });
+                        }
+                    });
+
+                    // on drag - slideUp the item and show the placeholder with
+                    // a fadeIn, if the drop target is invalid then show the helper
+                    // on drop - show the item if the drop target is valid or
+                    // slideDown the item and animate the helper until it gets
+                    // over the item position, using a fadeOut too
+
+                    $('.sort15').aciSortable({
+                        exclude: '.exclude',
+                        helper: '<div class="customHelper"></div>',
+                        helperSelector: '.customHelper',
+                        placeholder: '<li class="customPlaceholder"></li>',
+                        placeholderSelector: '.customPlaceholder',
+                        connectDrop: '.sort13,.sort14',
+                        start: function(item, placeholder, helper) {
+                            // show item inside placeholder/helper
+                            placeholder.html(item.html()).fadeIn();
+                            helper.css({
+                                opacity: 0.8
+                            }).html(item.html()).hide();
+                            item.slideUp();
+                        },
+                        drag: function(item, placeholder, isValid, helper) {
+                            if (placeholder.parent().length) {
+                                // placeholder is visible
+                                helper.stop(true, true).fadeOut({
+                                    complete: function() {
+                                        helper.detach()
+                                    }
+                                });
+                            } else {
+                                // not a valid drop target
+                                helper.appendTo(window.document.body).fadeIn();
+                            }
+                        },
+                        end: function(item, placeholder, helper) {
+                            if (placeholder.parent().length) {
+                                // add item after placeholder
+                                placeholder.after(item).detach();
+                            }
+                            if (helper.parent().length) {
+                                // the helper is visible
+                                item.slideDown();
+                                var top = $(window).scrollTop();
+                                var left = $(window).scrollLeft();
+                                var rect = item.get(0).getBoundingClientRect();
+                                // animate helper to item position
+                                helper.animate({
+                                    top: rect.top + top,
+                                    left: rect.left + left,
+                                    opacity: 0
+                                },
+                                {
+                                    complete: function() {
+                                        // when completed detach the helper
+                                        helper.detach();
+                                    }
+                                });
+                            } else {
+                                // the helper is not visible
+                                item.show();
+                                helper.detach();
+                            }
+                        }
+                    });
+
+
+                });
+
+            </script>              
+
+        </div>
+
+        <div class="options">
+            <label>Add Child Containers <input id="child" type="checkbox" value="1" /></label>
+            <label>Draggable Between Parent/Child Containers <input id="draggable" type="checkbox" value="1" /></label>
+            <label>Always Show Placeholder <input id="gluedPlaceholder" type="checkbox" value="1" /></label>
+            <label>Helper Relative to Starting Point <input id="relative" type="checkbox" value="1" /></label>
+            <br />
+            (note: this will change the options for all sortables)
+        </div>        
+
+        <script type="text/javascript">
+
+            $(function() {
+
+                $('#child').prop('checked', false);
+                $('#draggable').prop('checked', true);
+                $('#gluedPlaceholder').prop('checked', false);
+                $('#relative').prop('checked', false);
+
+                $('#child').click(function() {
+                    if ($(this).is(':checked')) {
+                        $('.sort').aciSortable('option', 'child', 50);
+                    } else {
+                        $('.sort').aciSortable('option', 'child', null);
+                    }
+                });
+
+                $('#draggable').click(function() {
+                    $('.sort').aciSortable('option', 'draggable', $(this).is(':checked'));
+                });
+
+                $('#gluedPlaceholder').click(function() {
+                    $('.sort').aciSortable('option', 'gluedPlaceholder', $(this).is(':checked'));
+                });
+
+                $('#relative').click(function() {
+                    $('.sort').aciSortable('option', 'relative', $(this).is(':checked'));
+                });
+
+                $('script.code').each(function() {
+                    $(this).before('<div style="clear:both"><pre style="padding:20px;border:1px dashed #000;background:#f6f6f6;display:inline-block;"></pre></div>');
+                    $(this).prev('div').find('pre').text($(this).text());
+                });
+
+            });
+
+        </script>        
+
+    </body>
+</html>

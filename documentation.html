@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+        <title>aciSortable v1.0.0 - Sort a list of items (including nested items) with jQuery</title>
+        <meta name="description" content="aciSortable API documentation" />
+        <style type="text/css">
+            html {
+                height: 100%;
+            }
+            html * {
+                margin:0;
+                padding:0;
+            }
+            body {
+                color:#036;
+                font-family:Verdana, Geneva, sans-serif;
+                font-size:14px;
+                max-width:900px;
+                height: 100%;
+                background-color:#eee;
+                margin:20px auto 20px auto;
+            }
+            a, a:visited {
+                color:#333;
+            }
+            a:hover {
+                text-decoration:none;
+            }
+            .body {
+                width:100%;
+                min-height:100%;
+            }
+            ul {
+                list-style:outside;
+                list-style-type:circle;
+                margin:20px 0 20px 18px;
+            }
+            li {
+                margin:4px 0 4px 0;
+            }
+            h1, h2, h3 {
+                color:#930;
+                margin:30px 0 20px 0;
+            }
+            h1 {
+                font-size:1.2em;
+            }
+            h2 {
+                font-size:1.1em;
+            }
+            h3 {
+                font-size:1em;
+            }
+            p {
+                margin-top:10px;
+                margin-bottom:10px;
+            }
+            .api-extensions label {
+                display:inline-block;
+                width:270px;
+                padding-right: 10px;
+                height:25px;
+                font-weight:bold;
+                cursor:pointer;
+            }
+            .api-events label {
+                display:inline-block;
+                width:140px;
+                padding-right: 10px;
+                height:25px;
+                font-weight:bold;
+                color:#993300;
+            }
+            .api {
+                padding:10px 0 10px 0;
+            }
+            .api>div {
+                margin:10px 0 10px 0;
+                opacity:0.9;
+            }
+            .api>div:hover {
+                opacity:1;
+            }
+            .api>div em {
+                color:#993300;
+                font-weight:bold;
+            }
+            .api div span {
+                display:block;
+                font-weight:bold;
+                margin:10px 0 10px 0;
+            }
+            .api div>span:first-child {
+                background-color:#003366;
+                color:#fff;
+                line-height:30px;
+                padding-left:10px;
+            }
+            .api div>span:first-child>span {
+                padding-left:10px;
+                font-style:italic;
+                font-size:0.9em;
+                color:#ccc;
+            }
+            .api div>span:first-child a {
+                float:right;
+                color:#fff;
+                font-weight:bold;
+                text-decoration:none;
+                padding-right:10px;
+                font-size:12px;
+            }
+            .api div span>span {
+                font-weight:normal;
+                display:inline;
+            }
+            .api div span.where>span {
+                display:block;
+                font-weight:bold;
+            }
+            .api div span.where {
+                display:block;
+                font-weight:normal !important;
+                padding-left:40px;
+            }
+            .api div>span.where {
+                display:block;
+            }
+            .api div ul {
+                list-style:none;
+                margin:0;
+                display:inline;
+            }
+            .api div ul>li {
+                padding-left:40px;
+            }
+            .api div ul>li:first-child {
+                display:inline;
+                padding-left:0;
+            }
+            .api div ul>li:last-child {
+                padding-left:0;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>aciSortable API v1.0.0</h1>
+
+<div class="api"><span class="toc"><a title=".containerFrom (element)" href="#.containerFrom">.containerFrom -  Returns the parent element as indicated by options.container...</a><br><a title=".destroy ()" href="#.destroy">.destroy -  Destroys the aciSortable instance.
+                </a><br><a title=".hasChildrens (item)" href="#.hasChildrens">.hasChildrens -  Test if the element item has childrens.
+                    
+                </a><br><a title=".hasContainer (item)" href="#.hasContainer">.hasContainer -  Test if the element item contains a parent element options.container...</a><br><a title=".hasItem (item)" href="#.hasItem">.hasItem -  Test if the element item exists in the current aciSortable instance or comes...</a><br><a title=".init ()" href="#.init">.init -  Init the aciSortable plugin.
+                </a><br><a title=".isEmpty (container)" href="#.isEmpty">.isEmpty -  Test if the container has options.item childrens...</a><br><a title=".itemFrom (element)" href="#.itemFrom">.itemFrom -  Returns the parent element as indicated by options.item...</a><br><a title=".sortableFrom (element)" href="#.sortableFrom">.sortableFrom -  Returns the element under which aciSortable was initialized...</a><br><a title=".wasInit ()" href="#.wasInit">.wasInit -  Returns TRUE if the plugin has been initialized.
+                </a><br></span>
+
+                <a name=".containerFrom"></a><div><span>.containerFrom (element)</span> Returns the parent element as indicated by <b>options.container</b>.
+                    <span class="where">
+                        where:
+                        <span>element<span> jQuery object</span></span> a child element
+                    </span>
+                </div>                
+                
+                <a name=".destroy"></a><div><span>.destroy ()</span> Destroys the aciSortable instance.
+                </div>                
+
+                <a name=".hasChildrens"></a><div><span>.hasChildrens (item)</span> Test if the element <b>item</b> has childrens.
+                    <span class="where">
+                        where:
+                        <span>item<span> jQuery object</span></span> a <b>options.item</b> element
+                    </span>
+                </div>              
+                
+                <a name=".hasContainer"></a><div><span>.hasContainer (item)</span> Test if the element <b>item</b> contains a parent element <b>options.container</b>.
+                    <span class="where">
+                        where:
+                        <span>item<span> jQuery object</span></span> a <b>options.item</b> element
+                    </span>
+                </div>                    
+                
+                <a name=".hasItem"></a><div><span>.hasItem (item)</span> Test if the element <b>item</b> exists in the current aciSortable instance or comes from elsewhere.
+                    <span class="where">
+                        where:
+                        <span>item<span> jQuery object</span></span> a <b>options.item</b> element
+                    </span>
+                </div>                   
+                
+                <a name=".init"></a><div><span>.init ()</span> Init the aciSortable plugin.
+                </div>              
+                
+                <a name=".isEmpty"></a><div><span>.isEmpty (container)</span> Test if the <b>container</b> has <b>options.item</b> childrens.
+                    <span class="where">
+                        where:
+                        <span>container<span> jQuery object</span></span> a <b>options.container</b> element
+                    </span>
+                </div>             
+                
+                <a name=".itemFrom"></a><div><span>.itemFrom (element)</span> Returns the parent element as indicated by <b>options.item</b>.
+                    <span class="where">
+                        where:
+                        <span>element<span> jQuery object</span></span> a child element
+                    </span>
+                </div>    
+                
+                <a name=".sortableFrom"></a><div><span>.sortableFrom (element)</span> Returns the element under which aciSortable was initialized.
+                    <span class="where">
+                        where:
+                        <span>element<span> jQuery object</span></span> a child element
+                    </span>
+                </div>                   
+
+                <a name=".wasInit"></a><div><span>.wasInit ()</span> Returns <i>TRUE</i> if the plugin has been initialized.
+                </div>
+
+            </div>
+
+        <p>aciSortable jQuery Plugin v1.0.0</p>
+        <p>http://acoderinsights.ro</p>
+
+        <p>Copyright (c) 2013 Dragos Ursu</p>
+        <p>Dual licensed under the MIT or GPL Version 2 licenses.</p>
+
+        <p>Require jQuery Library >= v1.7.1 http://jquery.com</p>
+        <p>+ aciPlugin >= v1.2.0 https://github.com/dragosu/jquery-aciPlugin</p>
+
+        <p>Date: May Thu 23 21:00 2013 +0200</p>
+
+    </body>
+</html>
