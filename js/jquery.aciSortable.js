@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.0.0
+ * aciSortable jQuery Plugin v1.1.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -9,7 +9,7 @@
  * Require jQuery Library >= v1.7.1 http://jquery.com
  * + aciPlugin >= v1.2.0 https://github.com/dragosu/jquery-aciPlugin
  *
- * Date: May Thu 23 21:00 2013 +0200
+ * Date: May Fri 24 10:00 2013 +0200
  */
 
 /*
@@ -58,6 +58,7 @@
         draggable: true,                                                      // if FALSE then the items can only be sorted inside the same container
         gluedPlaceholder: false,                                              // if TRUE then the placeholder will always be visible
         connectDrop: null,                                                    // selector for other sortables to connect this sortable with (as drop targets)
+        scroll: 0.4,                                                          // the scroll factor to use (speed[pixels/50ms] = drag-distance * options.scroll)
         /**
          * Called before start dragging.
          * @param jQuery item The sorted element
@@ -165,7 +166,8 @@
                 placeholder: null,  // hold the placeholder (may not be inserted in the DOM)
                 helper: null,       // hold the helper (may not be inserted in the DOM)
                 relative: null,     // starting mouse offset (if options.relative was TRUE)
-                children: null      // hold the last item with a created container
+                children: null,     // hold the last item with a created container
+                scroll: false       // hold the scroll state
             });
         },
         // init
@@ -583,8 +585,64 @@
             $(window.document.body).css('cursor', 'no-drop');
             this._onDrag(false);
         },
+        // process scrolling
+        _scroll: function() {
+            if (this._instance.scroll) {
+                return;
+            }
+            this._instance.scroll = true;
+            var scroll = this._instance.jQuery.get(0).scrollHeight;
+            var height = this._instance.jQuery.height();
+            if (scroll > height) {
+                var top = $(window).scrollTop();
+                var rect = this._instance.jQuery.get(0).getBoundingClientRect();
+                if (this._instance.pointNow.y < top + rect.top) {
+                    var now = this._instance.jQuery.scrollTop();
+                    if (now > 0) {
+                        var distance = top + rect.top - this._instance.pointNow.y;
+                        this._instance.jQuery.get(0).scrollTop = Math.max(now - distance * this._instance.options.scroll, 0);
+                    }
+                } else if (this._instance.pointNow.y > top + rect.bottom) {
+                    var now = this._instance.jQuery.scrollTop();
+                    if (now + height < scroll) {
+                        var distance = this._instance.pointNow.y - (top + rect.bottom);
+                        this._instance.jQuery.get(0).scrollTop = Math.min(now + distance * this._instance.options.scroll, scroll - height);
+                    }
+                }
+            }
+            scroll = this._instance.jQuery.get(0).scrollWidth;
+            var width = this._instance.jQuery.width();
+            if (scroll > width) {
+                var left = $(window).scrollLeft();
+                var rect = this._instance.jQuery.get(0).getBoundingClientRect();
+                if (this._instance.pointNow.x < left + rect.left) {
+                    var now = this._instance.jQuery.scrollLeft();
+                    if (now > 0) {
+                        var distance = left + rect.left - this._instance.pointNow.x;
+                        this._instance.jQuery.get(0).scrollLeft = Math.max(now - distance * this._instance.options.scroll, 0);
+                    }
+                } else if (this._instance.pointNow.x > left + rect.right) {
+                    var now = this._instance.jQuery.scrollLeft();
+                    if (now + width < scroll) {
+                        var distance = this._instance.pointNow.x - (left + rect.right);
+                        this._instance.jQuery.get(0).scrollLeft = Math.min(now + distance * this._instance.options.scroll, scroll - width);
+                    }
+                }
+            }
+            if (this._instance.sorting) {
+                window.setTimeout($.proxy(function() {
+                    this._instance.scroll = false;
+                    this._scroll();
+                }, this), 50);
+            } else {
+                this._instance.scroll = false;
+            }
+        },
         // update helper
         _helper: function() {
+            if (this._instance.options.scroll) {
+                this._scroll();
+            }
             this._instance.helper.css({
                 left: (this._instance.pointNow.x + this._instance.relative.x) + 'px',
                 top: (this._instance.pointNow.y + this._instance.relative.y) + 'px'

@@ -10,6 +10,14 @@ body {
     overflow-y:scroll;
     border:1px solid #000;
 }
+.sort-h{
+    width:400px;
+    height:100px;
+    display:block;
+    overflow-x:scroll;
+    border:1px solid #000;
+    white-space:no-wrap
+}
 .float {
     overflow:visible;
 }
@@ -25,13 +33,24 @@ ul{
     list-style:none;
     margin:0;
 }
-.sort>ul {
+.sort>ul, .sort-h>ul {
     border:none;
 }
 li{
     padding:10px;
     display:block;
     background-color:#fff;
+}
+.sort-h li {
+    display:inline-block;
+}
+.sort-h .aciSortablePlaceholder {
+    width:4px;
+    display:inline-block;
+}
+.sort-h .aciSortablePlaceholder div {
+    height:20px;
+    width:4px;
 }
 li.sorted {
     background-color:#ccc;
