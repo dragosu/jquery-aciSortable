@@ -1904,38 +1904,72 @@
 
             </script>              
 
-            <p>A horizontal sortable:</p>
-            
-            <div class="sort-h sort16">
-                <ul>
-                    <li>Item 1</li>
-                    <li>Item 2</li>
-                    <li>Item 3</li>
-                    <li>Item 4</li>
-                    <li>Item 5</li>
-                    <li>Item 6</li>
-                    <li>Item 7</li>
-                    <li class="exclude">Item 8</li>
-                    <li>Item 9</li>
-                    <li>Item 10</li>
-                    <li>Item 11</li>
-                    <li>Item 12</li>
-                    <li>Item 13</li>
-                    <li>Item 14</li>
-                    <li>Item 15</li>
-                    <li>Item 16</li>
-                    <li>Item 17</li>
-                    <li>Item 18</li>
-                    <li>Item 19</li>
-                    <li>Item 20</li>
-                    <li>Item 21</li>
-                    <li>Item 22</li>
-                    <li>Item 23</li>
-                    <li>Item 24</li>
-                    <li>Item 25</li>
-                    <li>Item 26</li>
-                </ul>
-            </div>                       
+            <p>Horizontal sortables:</p>
+
+            <div class="float">
+                <div class="sort-h sort16">
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                        <li>Item 4</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12</li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>       
+
+                <div class="sort-h line sort16b">
+                    <ul>
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                        <li>Item 4</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12</li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>         
+                
+            </div>
 
             <script class="code" type="text/javascript">
 
@@ -1946,9 +1980,108 @@
                         vertical: false
                     });
 
+                    $('.sort16b').aciSortable({
+                        exclude: '.exclude',
+                        vertical: false
+                    });
+
                 });
 
             </script>                          
+
+            <p>Scroll not only the sortable container/document but a parent container too:</p>
+
+            <div class="parent">
+                
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo dolor magna, ac lacinia odio. Mauris eget viverra est. Suspendisse potenti. Donec mollis, magna ac consectetur iaculis, nisi felis mollis mi, at consectetur justo tortor nec neque. Fusce sodales ullamcorper metus, lacinia placerat leo molestie vitae. Ut nec enim sem, quis tristique orci. Duis lobortis quam ac massa tincidunt id pharetra libero facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer vel purus lacus. Fusce auctor rutrum quam, a sollicitudin purus lobortis et. Aenean non lorem vel ligula euismod interdum. Sed sit amet scelerisque lectus. Nunc rutrum varius sapien sit amet pellentesque.</p>
+
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>
+
+                <div class="sort sort17">
+                    <ul>
+                        <li>Item 1 
+                            <input type="checkbox" />
+                            <a href="#" title="">link</a>
+                            <input type="text" />
+                            <button type="button">Click Me!</button>                     
+                            <select>
+                                <option value="volvo">Volvo</option>
+                                <option value="saab">Saab</option>
+                                <option value="mercedes">Mercedes</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <textarea>text area</textarea>                                      
+                        </li>
+                        <li>Item 2 
+                            <ul class="exclude">
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
+                                    <ul>
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
+                                            <ul>
+                                            </ul>                                    
+                                        </li>
+                                    </ul>                            
+                                </li>
+                                <li>Item 2.5</li>
+                            </ul>
+                        </li>
+                        <li>Item 3</li>
+                        <li>Item 4
+                            <ul>
+                            </ul>
+                        </li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
+                        <li class="exclude">Item 8</li>
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
+                            <ul>
+                                <li>Item 12.1</li>
+                            </ul>                     
+                        </li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
+                    </ul>
+                </div>
+                
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo dolor magna, ac lacinia odio. Mauris eget viverra est. Suspendisse potenti. Donec mollis, magna ac consectetur iaculis, nisi felis mollis mi, at consectetur justo tortor nec neque. Fusce sodales ullamcorper metus, lacinia placerat leo molestie vitae. Ut nec enim sem, quis tristique orci. Duis lobortis quam ac massa tincidunt id pharetra libero facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer vel purus lacus. Fusce auctor rutrum quam, a sollicitudin purus lobortis et. Aenean non lorem vel ligula euismod interdum. Sed sit amet scelerisque lectus. Nunc rutrum varius sapien sit amet pellentesque.</p>
+
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>                
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort17').aciSortable({
+                        exclude: '.exclude',
+                        scrollParent: 'window,.parent'
+                    });
+
+                });
+
+            </script>                            
 
         </div>
 

@@ -12,7 +12,7 @@ body {
 }
 .sort-h{
     width:400px;
-    height:100px;
+    height:110px;
     display:block;
     overflow-x:scroll;
     border:1px solid #000;
@@ -21,7 +21,7 @@ body {
 .float {
     overflow:visible;
 }
-.float .sort {
+.float .sort, .float .sort-h {
     float:left;
     margin:0 10px 10px 0;
 }
@@ -32,6 +32,17 @@ ul{
     background-color:#fff;
     list-style:none;
     margin:0;
+}
+.sort-h.line{
+    height:80px;
+}
+.sort-h.line>ul {
+    width:1700px;
+}
+.parent {
+    height:600px;
+    overflow-y:scroll;
+    background-color: #e3edf9;
 }
 .sort>ul, .sort-h>ul {
     border:none;

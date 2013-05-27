@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.1.0
+ * aciSortable jQuery Plugin v1.2.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -8,8 +8,6 @@
  *
  * Require jQuery Library >= v1.7.1 http://jquery.com
  * + aciPlugin >= v1.2.0 https://github.com/dragosu/jquery-aciPlugin
- *
- * Date: May Fri 24 10:00 2013 +0200
  */
 
 /*
@@ -58,7 +56,9 @@
         draggable: true,                                                      // if FALSE then the items can only be sorted inside the same container
         gluedPlaceholder: false,                                              // if TRUE then the placeholder will always be visible
         connectDrop: null,                                                    // selector for other sortables to connect this sortable with (as drop targets)
-        scroll: 0.4,                                                          // the scroll factor to use (speed[pixels/50ms] = drag-distance * options.scroll)
+        scroll: 80,                                                           // the distance from margin to consider for scrolling speed[pixels/50ms]=options.scroll/[1+1.04^(-distance+60)]
+        // use NULL to disable scrolling
+        scrollParent: 'window',                                               // selector for parent elements to scroll (when in drag and the mouse pointer gets close to a margin)
         /**
          * Called before start dragging.
          * @param jQuery item The sorted element
@@ -346,18 +346,10 @@
         },
         // return item from element
         itemFrom: function(element) {
-            var item = $(element);
-            if (item.is(this._instance.options.item)) {
-                return item;
-            }
             return $(element).closest(this._instance.options.item);
         },
         // return container from element
         containerFrom: function(element) {
-            var item = $(element);
-            if (item.is(this._instance.options.container)) {
-                return item;
-            }
             return $(element).closest(this._instance.options.container);
         },
         // test if item has childrens
@@ -585,54 +577,103 @@
             $(window.document.body).css('cursor', 'no-drop');
             this._onDrag(false);
         },
+        // process scrolling for the parent
+        _scrollParent: function(parent) {
+            if (parent) {
+                parent = parent.parents(this._instance.options.scrollParent).first();
+            } else {
+                var parent = this._instance.jQuery.parents(this._instance.options.scrollParent).first();
+            }
+            if (parent.length) {
+                if (!this._scrollContainer(parent)) {
+                    return parent;
+                }
+            } else {
+                if (this._instance.options.scrollParent.match(/^(.*,)?window(,.*)?$/)) {
+                    this._scrollContainer($(window), true);
+                }
+            }
+            return null;
+        },
+        // compute scroll amount
+        _amount: function(margin, distance) {
+            return margin / (1 + window.Math.pow(1.04, -distance + 60));
+        },
+        // process container scroll
+        _scrollContainer: function(container, isWindow) {
+            var updated = false;
+            var top = $(window).scrollTop(), left = $(window).scrollLeft(), height = container.height(), width = container.width();
+            var scrollHeight = isWindow ? window.document.body.scrollHeight : container.get(0).scrollHeight;
+            var margin = window.Math.min(this._instance.options.scroll, height / 3);
+            var rect = isWindow ? {
+                left: 0,
+                top: 0,
+                right: width,
+                bottom: height
+            } : container.get(0).getBoundingClientRect();
+            if (scrollHeight > height) {
+                if ((this._instance.pointNow.x > left + rect.left) && (this._instance.pointNow.x < left + rect.right)) {
+                    var now = container.scrollTop();
+                    if (this._instance.pointNow.y < top + rect.top + margin) {
+                        if (now > 0) {
+                            var distance = top + rect.top + margin - this._instance.pointNow.y;
+                            container.scrollTop(window.Math.max(now - this._amount(margin, distance), 0));
+                            updated = true;
+                        }
+                    } else if (this._instance.pointNow.y > top + rect.bottom - margin) {
+                        if (now + height < scrollHeight) {
+                            var distance = this._instance.pointNow.y - (top + rect.bottom - margin);
+                            container.scrollTop(window.Math.min(now + this._amount(margin, distance), scrollHeight - height));
+                            updated = true;
+                        }
+                    }
+                }
+            }
+            var scrollWidth = isWindow ? window.document.body.scrollWidth : container.get(0).scrollWidth;
+            margin = window.Math.min(this._instance.options.scroll, width / 3);
+            if (scrollWidth > width) {
+                if ((this._instance.pointNow.y > top + rect.top) && (this._instance.pointNow.y < top + rect.bottom)) {
+                    var now = container.scrollLeft();
+                    if (this._instance.pointNow.x < left + rect.left + margin) {
+                        if (now > 0) {
+                            var distance = left + rect.left + margin - this._instance.pointNow.x;
+                            container.scrollLeft(window.Math.max(now - this._amount(margin, distance), 0));
+                            updated = true;
+                        }
+                    } else if (this._instance.pointNow.x > left + rect.right - margin) {
+                        if (now + width < scrollWidth) {
+                            var distance = this._instance.pointNow.x - (left + rect.right - margin);
+                            container.scrollLeft(window.Math.min(now + this._amount(margin, distance), scrollWidth - width));
+                            updated = true;
+                        }
+                    }
+                }
+            }
+            if (isWindow && updated) {
+                this._instance.pointNow.x += container.scrollLeft() - left;
+                this._instance.pointNow.y += container.scrollTop() - top;
+            }
+            return updated;
+        },
         // process scrolling
         _scroll: function() {
             if (this._instance.scroll) {
                 return;
             }
             this._instance.scroll = true;
-            var scroll = this._instance.jQuery.get(0).scrollHeight;
-            var height = this._instance.jQuery.height();
-            if (scroll > height) {
-                var top = $(window).scrollTop();
-                var rect = this._instance.jQuery.get(0).getBoundingClientRect();
-                if (this._instance.pointNow.y < top + rect.top) {
-                    var now = this._instance.jQuery.scrollTop();
-                    if (now > 0) {
-                        var distance = top + rect.top - this._instance.pointNow.y;
-                        this._instance.jQuery.get(0).scrollTop = Math.max(now - distance * this._instance.options.scroll, 0);
-                    }
-                } else if (this._instance.pointNow.y > top + rect.bottom) {
-                    var now = this._instance.jQuery.scrollTop();
-                    if (now + height < scroll) {
-                        var distance = this._instance.pointNow.y - (top + rect.bottom);
-                        this._instance.jQuery.get(0).scrollTop = Math.min(now + distance * this._instance.options.scroll, scroll - height);
-                    }
-                }
-            }
-            scroll = this._instance.jQuery.get(0).scrollWidth;
-            var width = this._instance.jQuery.width();
-            if (scroll > width) {
-                var left = $(window).scrollLeft();
-                var rect = this._instance.jQuery.get(0).getBoundingClientRect();
-                if (this._instance.pointNow.x < left + rect.left) {
-                    var now = this._instance.jQuery.scrollLeft();
-                    if (now > 0) {
-                        var distance = left + rect.left - this._instance.pointNow.x;
-                        this._instance.jQuery.get(0).scrollLeft = Math.max(now - distance * this._instance.options.scroll, 0);
-                    }
-                } else if (this._instance.pointNow.x > left + rect.right) {
-                    var now = this._instance.jQuery.scrollLeft();
-                    if (now + width < scroll) {
-                        var distance = this._instance.pointNow.x - (left + rect.right);
-                        this._instance.jQuery.get(0).scrollLeft = Math.min(now + distance * this._instance.options.scroll, scroll - width);
+            if (!this._scrollContainer(this._instance.jQuery) && this._instance.options.scrollParent) {
+                var parent = null;
+                while (true) {
+                    parent = this._scrollParent(parent);
+                    if (parent === null) {
+                        break;
                     }
                 }
             }
             if (this._instance.sorting) {
                 window.setTimeout($.proxy(function() {
                     this._instance.scroll = false;
-                    this._scroll();
+                    this._helper();
                 }, this), 50);
             } else {
                 this._instance.scroll = false;
