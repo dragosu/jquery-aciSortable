@@ -1,13 +1,13 @@
 
 /*
- * aciSortable jQuery Plugin v1.2.0
+ * aciSortable jQuery Plugin v1.3.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * Require jQuery Library >= v1.7.1 http://jquery.com
- * + aciPlugin >= v1.2.0 https://github.com/dragosu/jquery-aciPlugin
+ * + aciPlugin >= v1.4.0 https://github.com/dragosu/jquery-aciPlugin
  */
 
 /*
@@ -172,89 +172,88 @@
         },
         // init
         init: function() {
-            var _this = this;
             if (this.wasInit()) {
                 return;
             }
             // bind events to respond to the drag operation
-            this._instance.jQuery.on('mousedown' + this._instance.nameSpace, this._instance.options.item, function(event) {
+            this._instance.jQuery.on('mousedown' + this._instance.nameSpace, this._instance.options.item, this.proxy(function(event) {
                 // mousedown on a item
                 var target = $(event.target);
-                if (!target.is(_this._instance.options.handle) || target.is(_this._instance.options.disable)) {
+                if (!target.is(this._instance.options.handle) || target.is(this._instance.options.disable)) {
                     return;
                 }
-                if (!target.is(_this._instance.options.disable)) {
+                if (!target.is(this._instance.options.disable)) {
                     // prevent text selection
                     event.preventDefault();
                 }
-                if (target.is(_this._instance.options.container)) {
+                if (target.is(this._instance.options.container)) {
                     // no drag for containers 
                     $(window.document.body).css('cursor', 'no-drop');
                 } else {
-                    _this._delayStart(event);
+                    this._delayStart(event);
                 }
-            }).on('mousemove' + this._instance.nameSpace, this._instance.options.item, function(event) {
+            })).on('mousemove' + this._instance.nameSpace, this._instance.options.item, this.proxy(function(event) {
                 // mousemove over a item
-                if (_this._instance.sorting) {
+                if (this._instance.sorting) {
                     event.stopPropagation();
-                    var item = _this.itemFrom(event.target);
-                    if (_this._instance.item.has(item).length) {
+                    var item = this.itemFrom(event.target);
+                    if (this._instance.item.has(item).length) {
                         // the parent can't be dropped over his childrens
-                        _this._instance.hoverItem = null;
+                        this._instance.hoverItem = null;
                     } else {
-                        _this._instance.hoverItem = item;
+                        this._instance.hoverItem = item;
                     }
-                    _this._instance.isContainer = false;
+                    this._instance.isContainer = false;
                 }
-                _this._drag(event);
-            }).on('mousemove' + this._instance.nameSpace, this._instance.options.container, function(event) {
+                this._drag(event);
+            })).on('mousemove' + this._instance.nameSpace, this._instance.options.container, this.proxy(function(event) {
                 // mousemove over a sortable container
-                if (_this._instance.sorting) {
+                if (this._instance.sorting) {
                     event.stopPropagation();
-                    var container = _this.containerFrom(event.target);
-                    if (_this.isEmpty(container) && !_this._instance.item.has(container).length) {
+                    var container = this.containerFrom(event.target);
+                    if (this.isEmpty(container) && !this._instance.item.has(container).length) {
                         // allow empty container to be a drop target
-                        _this._instance.hoverItem = container;
-                        _this._instance.isContainer = true;
-                        _this._drag(event);
+                        this._instance.hoverItem = container;
+                        this._instance.isContainer = true;
+                        this._drag(event);
                     }
                 }
-            });
+            }));
             this._initConnect();
             // ensure we proceess on move/end outside of container
-            $(window.document).bind('mousemove' + this._instance.nameSpace + this._instance.index, function(event) {
+            $(window.document).bind('mousemove' + this._instance.nameSpace + this._instance.index, this.proxy(function(event) {
                 // mousemove outside of the sortable
-                if (_this._instance.sorting) {
+                if (this._instance.sorting) {
                     // can't drag outside of container
-                    _this._instance.hoverItem = null;
-                    _this._drag(event);
+                    this._instance.hoverItem = null;
+                    this._drag(event);
                 }
-            }).on('mousemove' + this._instance.nameSpace + this._instance.index, this._instance.options.helperSelector, function(event) {
+            })).on('mousemove' + this._instance.nameSpace + this._instance.index, this._instance.options.helperSelector, this.proxy(function(event) {
                 // mousemove over the helper
-                if (_this._instance.sorting) {
-                    var element = _this._fromCursor(event);
+                if (this._instance.sorting) {
+                    var element = this._fromCursor(event);
                     if (element) {
-                        _this._instance.jQuery.trigger($.Event('mousemove', {
+                        this._instance.jQuery.trigger($.Event('mousemove', {
                             target: element,
                             pageX: event.pageX,
                             pageY: event.pageY
                         }));
                     }
                 }
-            }).bind('selectstart' + this._instance.nameSpace + this._instance.index, function(event) {
-                if (_this._instance.sorting) {
+            })).bind('selectstart' + this._instance.nameSpace + this._instance.index, this.proxy(function(event) {
+                if (this._instance.sorting) {
                     // prevent text selection
                     event.preventDefault();
                 }
-            }).bind('mouseup' + this._instance.nameSpace + this._instance.index, function() {
+            })).bind('mouseup' + this._instance.nameSpace + this._instance.index, this.proxy(function() {
                 // drag ends here
-                if (_this._instance.sorting) {
-                    _this._end();
+                if (this._instance.sorting) {
+                    this._end();
                 } else {
-                    _this._instance.item = null;
+                    this._instance.item = null;
                     $(window.document.body).css('cursor', 'default');
                 }
-            });
+            }));
             this._super();
         },
         // get element from cursor
@@ -273,18 +272,17 @@
         },
         // init connect sortables
         _initConnect: function() {
-            var _this = this;
             if (this._instance.options.connectDrop) {
-                $(window.document).on('mousemove' + this._instance.nameSpace + 'connect' + this._instance.index, this._instance.options.connectDrop, function(event) {
+                $(window.document).on('mousemove' + this._instance.nameSpace + 'connect' + this._instance.index, this._instance.options.connectDrop, this.proxy(function(event) {
                     // mousemove over the related sortables
-                    if (_this._instance.sorting && !_this._instance.jQuery.has(element).length) {
-                        var element = $(event.target);
-                        if (!element.is(_this._instance.options.connectDrop)) {
-                            element = element.closest(_this._instance.options.connectDrop);
+                    var element = $(event.target);
+                    if (this._instance.sorting && !this._instance.jQuery.has(element).length) {
+                        if (!element.is(this._instance.options.connectDrop)) {
+                            element = element.closest(this._instance.options.connectDrop);
                         }
-                        _this._connect(element);
+                        this._connect(element);
                     }
-                });
+                }));
             }
         },
         // done connect sortables
@@ -518,7 +516,7 @@
                         var scroll = $(window).scrollTop();
                         if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasContainer(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (rect.bottom - rect.top) * this._instance.options.child / 200;
+                            var distance = (rect.bottom - rect.top) * (0.5 - this._instance.options.child / 200);
                             if ((this._instance.pointNow.y > scroll + rect.top + distance) && (this._instance.pointNow.y < scroll + rect.bottom - distance)) {
                                 create = true;
                             }
@@ -531,7 +529,7 @@
                         var scroll = $(window).scrollLeft();
                         if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasContainer(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (rect.right - rect.left) * this._instance.options.child / 200;
+                            var distance = (rect.right - rect.left) * (0.5 - this._instance.options.child / 200);
                             if ((this._instance.pointNow.x > scroll + rect.left + distance) || (this._instance.pointNow.x < scroll + rect.right - distance)) {
                                 create = true;
                             }
@@ -671,10 +669,10 @@
                 }
             }
             if (this._instance.sorting) {
-                window.setTimeout($.proxy(function() {
+                window.setTimeout(this.proxy(function() {
                     this._instance.scroll = false;
                     this._helper();
-                }, this), 50);
+                }), 50);
             } else {
                 this._instance.scroll = false;
             }

@@ -20,11 +20,11 @@ $(function(){
 
 });
 
-aciSortable jQuery Plugin v1.2.0
+aciSortable jQuery Plugin v1.3.0
 http://acoderinsights.ro
 
 Copyright (c) 2013 Dragos Ursu
 Dual licensed under the MIT or GPL Version 2 licenses.
 
 Require jQuery Library >= v1.7.1 http://jquery.com
-+ aciPlugin >= v1.2.0 https://github.com/dragosu/jquery-aciPlugin
++ aciPlugin >= v1.4.0 https://github.com/dragosu/jquery-aciPlugin
