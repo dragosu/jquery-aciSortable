@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.3.0
+ * aciSortable jQuery Plugin v1.4.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -90,10 +90,11 @@
          * @param jQuery hover The element under the mouse pointer
          * @param bool/NULL before TRUE if the drop target is before the 'hover' item (NULL if 'isContainer' is TRUE)
          * @param bool isContainer TRUE if 'hover' is a empty container (not a item)
+         * @param jQuery placeholder The placeholder element
          * @param jQuery helper The element that follows the mouse pointer
          * @returns bool FALSE for a invalid drop target
          */
-        valid: function(item, hover, before, isContainer, helper) {
+        valid: function(item, hover, before, isContainer, placeholder, helper) {
             if (this._instance.options.exclude) {
                 // test if excluded from drop
                 if (isContainer) {
@@ -352,7 +353,7 @@
         },
         // test if item has childrens
         hasChildrens: function(item) {
-            return item.children(this._instance.options.container).children(this._instance.options.item).length > 0;
+            return item.children(this._instance.options.container).children(this._instance.options.item).not(this._instance.options.placeholderSelector).length > 0;
         },
         // test if item has container
         hasContainer: function(item) {
@@ -360,7 +361,7 @@
         },
         // test if container is empty
         isEmpty: function(container) {
-            return !container.children(this._instance.options.item).length;
+            return !container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).length;
         },
         // start drag with a delay
         _delayStart: function(event) {
@@ -426,9 +427,7 @@
             if (this._instance.sorting) {
                 // we started sorting
                 this._helper();
-                if (this._minDistance()) {
-                    this._placeholder();
-                }
+                this._placeholder();
             } else if (this._instance.item) {
                 // sorting not yet started
                 if (this._minDistance()) {
@@ -456,6 +455,7 @@
                 hover: this._instance.hoverItem,
                 before: before,
                 isContainer: this._instance.isContainer,
+                placeholder: this._instance.placeholder,
                 helper: this._instance.helper
             })) {
                 $(window.document.body).css('cursor', 'move');
@@ -514,11 +514,11 @@
                     var rect = this._instance.hoverItem.get(0).getBoundingClientRect();
                     if (this._instance.options.vertical) {
                         var scroll = $(window).scrollTop();
-                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasContainer(this._instance.hoverItem)) {
+                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
                             var distance = (rect.bottom - rect.top) * (0.5 - this._instance.options.child / 200);
                             if ((this._instance.pointNow.y > scroll + rect.top + distance) && (this._instance.pointNow.y < scroll + rect.bottom - distance)) {
-                                create = true;
+                                create = this.hasContainer(this._instance.hoverItem) ? null : true;
                             }
                         }
                         // check if should be before the hover one
@@ -527,11 +527,11 @@
                         }
                     } else {
                         var scroll = $(window).scrollLeft();
-                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasContainer(this._instance.hoverItem)) {
+                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
                             var distance = (rect.right - rect.left) * (0.5 - this._instance.options.child / 200);
                             if ((this._instance.pointNow.x > scroll + rect.left + distance) || (this._instance.pointNow.x < scroll + rect.right - distance)) {
-                                create = true;
+                                create = this.hasContainer(this._instance.hoverItem) ? null : true;
                             }
                         }
                         // check if should be before the hover one
@@ -539,13 +539,23 @@
                             before = true;
                         }
                     }
-                    if (before) {
+                    if (create === null) {
+                        this._instance.childItem = this._instance.hoverItem;
+                        // select the container
+                        this._instance.hoverItem = this._instance.hoverItem.children(this._instance.options.childHolderSelector);
+                        this._instance.isContainer = true;
+                        if (this._isValid(null)) {
+                            this._instance.hoverItem.append(this._instance.placeholder);
+                            this._onDrag(true);
+                            return;
+                        }
+                    } else if (before) {
                         // do not show it after or before the dragged item
                         var prevItem = this._instance.hoverItem.prev(this._instance.options.item);
                         if (!prevItem.length || !this._instance.item.is(':visible') || this._instance.options.gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
                             if (this._isValid(true)) {
                                 if (create && this._onCreate()) {
-                                    return;
+                                    return
                                 }
                                 this._instance.hoverItem.before(this._instance.placeholder);
                                 this._onDrag(true);

@@ -340,7 +340,7 @@
                             var container = this.containerFrom(item);
                             return !container.hasClass('exclude') && !item.hasClass('exclude');
                         },
-                        valid: function(item, hover, before, isContainer, helper) {
+                        valid: function(item, hover, before, isContainer, placeholder, helper) {
                             // the same implementation as the default but without using the options.exclude
                             if (isContainer) {
                                 return !hover.hasClass('exclude');
@@ -1158,7 +1158,7 @@
                                 helper.html('please select a valid drop target for <b>' + itemText + '</b>');
                             }
                         },
-                        valid: function(item, hover, before, isContainer, helper) {
+                        valid: function(item, hover, before, isContainer, placeholder, helper) {
                             // use the default implementation
                             if ($.fn.aciSortable.defaults.valid.call(this, item, hover, before, isContainer, helper)) {
                                 // get item text
