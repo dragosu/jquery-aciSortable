@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.4.0
+ * aciSortable jQuery Plugin v1.5.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -61,8 +61,8 @@
         scrollParent: 'window',                                               // selector for parent elements to scroll (when in drag and the mouse pointer gets close to a margin)
         /**
          * Called before start dragging.
-         * @param jQuery item The sorted element
-         * @returns bool FALSE for non-draggable items
+         * @param {jQuery} item The sorted element
+         * @returns {bool} FALSE for non-draggable items
          */
         before: function(item) {
             if (this._instance.options.exclude) {
@@ -74,9 +74,9 @@
         },
         /**
          * Called one time just before dragging (the helper content should be set here).
-         * @param jQuery item The sorted element
-         * @param jQuery placeholder The placeholder element
-         * @param jQuery helper The element that follows the mouse pointer
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} placeholder The placeholder element
+         * @param {jQuery} helper The element that follows the mouse pointer
          */
         start: function(item, placeholder, helper) {
             var clone = item.clone();
@@ -86,13 +86,13 @@
         },
         /**
          * Called to check the drop target.
-         * @param jQuery item The sorted element
-         * @param jQuery hover The element under the mouse pointer
-         * @param bool/NULL before TRUE if the drop target is before the 'hover' item (NULL if 'isContainer' is TRUE)
-         * @param bool isContainer TRUE if 'hover' is a empty container (not a item)
-         * @param jQuery placeholder The placeholder element
-         * @param jQuery helper The element that follows the mouse pointer
-         * @returns bool FALSE for a invalid drop target
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} hover The element under the mouse pointer (or a created child container - when 'isContainer' !== FALSE)
+         * @param {bool/NULL} before TRUE if the drop target is before the 'hover' item, FALSE if it is after the 'hover' item and NULL when testing if a container can be created
+         * @param {bool} isContainer TRUE if 'hover' is a empty container, FALSE if 'hover' is a item
+         * @param {jQuery} placeholder The placeholder element
+         * @param {jQuery} helper The element that follows the mouse pointer
+         * @returns {bool} FALSE for a invalid drop target
          */
         valid: function(item, hover, before, isContainer, placeholder, helper) {
             if (this._instance.options.exclude) {
@@ -108,19 +108,19 @@
         },
         /**
          * Called when in the drag operation (after the reposition of the placeholder).
-         * @param jQuery item The sorted element
-         * @param jQuery placeholder The placeholder element (inserted into the DOM)
-         * @param bool isValid TRUE if the current drop-target is valid
-         * @param jQuery helper The element that follows the mouse pointer
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} placeholder The placeholder element (inserted into the DOM)
+         * @param {bool} isValid TRUE if the current drop-target is valid
+         * @param {jQuery} helper The element that follows the mouse pointer
          */
         drag: function(item, placeholder, isValid, helper) {
             // there is no default implementation
         },
         /**
          * Called to create a child container when hovering over a item.
-         * @param jQuery item The sorted element
-         * @param jQuery hover The element under the mouse pointer
-         * @returns bool TRUE if the container was created
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} hover The element under the mouse pointer
+         * @returns {bool} TRUE if the container was created
          */
         create: function(item, hover) {
             // append a new child container
@@ -129,8 +129,8 @@
         },
         /**
          * Called when the child container should be removed.
-         * @param jQuery item The sorted element
-         * @param jQuery hover The element with the created container
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} hover The element with the created container
          */
         remove: function(item, hover) {
             // remove the child container
@@ -138,9 +138,9 @@
         },
         /**
          * Called on drag end (the item should be repositioned here based on the placeholder).
-         * @param jQuery item The sorted element
-         * @param jQuery placeholder The placeholder element (need to be detached)
-         * @param jQuery helper The element that follows the mouse pointer (need to be detached)
+         * @param {jQuery} item The sorted element
+         * @param {jQuery} placeholder The placeholder element (need to be detached)
+         * @param {jQuery} helper The element that follows the mouse pointer (need to be detached)
          */
         end: function(item, placeholder, helper) {
             // test if placeholder is inserted into the DOM
@@ -168,7 +168,10 @@
                 helper: null,       // hold the helper (may not be inserted in the DOM)
                 relative: null,     // starting mouse offset (if options.relative was TRUE)
                 children: null,     // hold the last item with a created container
-                scroll: false       // hold the scroll state
+                scroll: false,      // hold the scroll state
+                lastCheck: {
+                    // hold the last checked data
+                }
             });
         },
         // init
@@ -445,7 +448,7 @@
             });
         },
         // test if drag position is valid
-        _isValid: function(before) {
+        _isValid: function(before, create) {
             if (!this._instance.options.draggable && this.hasItem(this._instance.item) && (this._instance.isContainer || (this.containerFrom(this._instance.item).get(0) !=
                     this.containerFrom(this._instance.hoverItem).get(0)))) {
                 return false;
@@ -453,8 +456,8 @@
             if (this._call('valid', {
                 item: this._instance.item,
                 hover: this._instance.hoverItem,
-                before: before,
-                isContainer: this._instance.isContainer,
+                before: create ? null : ((before === null) ? false : before),
+                isContainer: create ? false : this._instance.isContainer,
                 placeholder: this._instance.placeholder,
                 helper: this._instance.helper
             })) {
@@ -480,8 +483,8 @@
             return false;
         },
         // called to remove a container
-        _onRemove: function() {
-            if (this._instance.childItem) {
+        _onRemove: function(item) {
+            if (this._instance.childItem && (!item || (item.get(0) != this._instance.childItem.get(0)))) {
                 if (this._instance.placeholder) {
                     this._instance.placeholder.detach();
                 }
@@ -494,6 +497,21 @@
                 this._instance.childItem = null;
             }
         },
+        // check if last check was the same
+        _wasValid: function(before, create, check) {
+            if (this._instance.lastCheck) {
+                var last = check ? this._instance.lastCheck.check : this._instance.lastCheck.normal;
+                var result = last && (last.hoverItem.get(0) == this._instance.hoverItem.get(0)) && (last.before === before) && (last.create === create) &&
+                        (last.isContainer == this._instance.isContainer);
+            }
+            this._instance.lastCheck[check ? 'check' : 'normal'] = {
+                hoverItem: this._instance.hoverItem,
+                before: before,
+                create: create,
+                isContainer: this._instance.isContainer
+            };
+            return result;
+        },
         // update placeholder
         _placeholder: function() {
             this._instance.pointStart = this._instance.pointNow;
@@ -503,6 +521,9 @@
                 }
                 if (this._instance.isContainer) {
                     // if the placeholder in an empty container
+                    if (this._wasValid(null, false)) {
+                        return;
+                    }
                     if (this._isValid(null)) {
                         this._instance.hoverItem.append(this._instance.placeholder);
                         this._onDrag(true);
@@ -512,64 +533,85 @@
                     // do not show if hover is the dragged item
                     var before = false, create = false;
                     var rect = this._instance.hoverItem.get(0).getBoundingClientRect();
+                    var container = this._instance.hoverItem.children(this._instance.options.container);
                     if (this._instance.options.vertical) {
                         var scroll = $(window).scrollTop();
+                        // take out the child container height
+                        var bottom = rect.bottom - ((container.length && container.is(':visible')) ? container.outerHeight(true) : 0);
                         if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (rect.bottom - rect.top) * (0.5 - this._instance.options.child / 200);
-                            if ((this._instance.pointNow.y > scroll + rect.top + distance) && (this._instance.pointNow.y < scroll + rect.bottom - distance)) {
-                                create = this.hasContainer(this._instance.hoverItem) ? null : true;
+                            var distance = (bottom - rect.top) * (0.5 - this._instance.options.child / 200);
+                            if ((this._instance.pointNow.y > scroll + rect.top + distance) && (this._instance.pointNow.y < scroll + bottom - distance)) {
+                                create = container.length ? null : true;
                             }
                         }
                         // check if should be before the hover one
-                        if (this._instance.pointNow.y < scroll + rect.top + (rect.bottom - rect.top) / 2) {
+                        if (this._instance.pointNow.y < scroll + rect.top + (bottom - rect.top) / 2) {
                             before = true;
                         }
                     } else {
                         var scroll = $(window).scrollLeft();
+                        // take out the child container width
+                        var right = rect.right - ((container.length && container.is(':visible')) ? container.outerWidth(true) : 0);
                         if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (rect.right - rect.left) * (0.5 - this._instance.options.child / 200);
-                            if ((this._instance.pointNow.x > scroll + rect.left + distance) || (this._instance.pointNow.x < scroll + rect.right - distance)) {
-                                create = this.hasContainer(this._instance.hoverItem) ? null : true;
+                            var distance = (right - rect.left) * (0.5 - this._instance.options.child / 200);
+                            if ((this._instance.pointNow.x > scroll + rect.left + distance) || (this._instance.pointNow.x < scroll + right - distance)) {
+                                create = container.length ? null : true;
                             }
                         }
                         // check if should be before the hover one
-                        if (this._instance.pointNow.x < scroll + rect.left + (rect.right - rect.left) / 2) {
+                        if (this._instance.pointNow.x < scroll + rect.left + (right - rect.left) / 2) {
                             before = true;
                         }
                     }
+                    if (create !== false) {
+                        if (this._wasValid(before, create, true)) {
+                            return;
+                        }
+                        if (this._isValid(null, true) === false) {
+                            create = false;
+                        }
+                    }
                     if (create === null) {
+                        this._onRemove(this._instance.hoverItem);
                         this._instance.childItem = this._instance.hoverItem;
                         // select the container
                         this._instance.hoverItem = this._instance.hoverItem.children(this._instance.options.childHolderSelector);
                         this._instance.isContainer = true;
+                        if (this._wasValid(null, true)) {
+                            return;
+                        }
                         if (this._isValid(null)) {
                             this._instance.hoverItem.append(this._instance.placeholder);
                             this._onDrag(true);
                             return;
                         }
                     } else if (before) {
-                        // do not show it after or before the dragged item
-                        var prevItem = this._instance.hoverItem.prev(this._instance.options.item);
-                        if (!prevItem.length || !this._instance.item.is(':visible') || this._instance.options.gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
-                            if (this._isValid(true)) {
-                                if (create && this._onCreate()) {
-                                    return
-                                }
+                        if (this._wasValid(true, create)) {
+                            return;
+                        }
+                        if (this._isValid(true)) {
+                            if (create && this._onCreate()) {
+                                return
+                            }
+                            var prevItem = this._instance.hoverItem.prev(this._instance.options.item);
+                            if (this._instance.options.gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
                                 this._instance.hoverItem.before(this._instance.placeholder);
                                 this._onDrag(true);
                                 return;
                             }
                         }
                     } else {
-                        // do not show it after or before the dragged item
-                        var nextItem = this._instance.hoverItem.next(this._instance.options.item);
-                        if (!nextItem.length || !this._instance.item.is(':visible') || this._instance.options.gluedPlaceholder || (nextItem.get(0) != this._instance.item.get(0))) {
-                            if (this._isValid(false)) {
-                                if (create && this._onCreate()) {
-                                    return;
-                                }
+                        if (this._wasValid(false, create)) {
+                            return;
+                        }
+                        if (this._isValid(false)) {
+                            if (create && this._onCreate()) {
+                                return;
+                            }
+                            var nextItem = this._instance.hoverItem.next(this._instance.options.item);
+                            if (this._instance.options.gluedPlaceholder || (nextItem.get(0) != this._instance.item.get(0))) {
                                 this._instance.hoverItem.after(this._instance.placeholder);
                                 this._onDrag(true);
                                 return;
@@ -721,6 +763,8 @@
             this._instance.sorting = false;
             this._instance.item = null;
             this._instance.hoverItem = null;
+            this._instance.lastCheck = {
+            };
             $(window.document.body).css('cursor', 'default');
         },
         // override set option

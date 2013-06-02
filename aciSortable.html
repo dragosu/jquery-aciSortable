@@ -1173,8 +1173,10 @@
                                     // if the item is to be inserted into a empty container
                                     helper.html('move <b>' + itemText + '</b> inside <b>' + hoverText + '</b>');
                                 } else {
-                                    // if the item is to be added before/after another one
-                                    helper.html('move <b>' + itemText + '</b> ' + (before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                    if (before !== null) {
+                                        // if the item is to be added before/after another one
+                                        helper.html('move <b>' + itemText + '</b> ' + (before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                    }
                                 }
                                 return true;
                             }
@@ -1209,8 +1211,10 @@
                                     // if the item is to be inserted into a empty container
                                     params.helper.html('move <b>' + itemText + '</b> inside <b>' + hoverText + '</b>');
                                 } else {
-                                    // if the item is to be added before/after another one
-                                    params.helper.html('move <b>' + itemText + '</b> ' + (params.before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                    if (params.before !== null) {
+                                        // if the item is to be added before/after another one
+                                        params.helper.html('move <b>' + itemText + '</b> ' + (params.before ? 'before' : 'after') + ' <b>' + hoverText + '</b>');
+                                    }
                                 }
                                 break;
                         }
@@ -1968,7 +1972,7 @@
                         <li>Item 26</li>
                     </ul>
                 </div>         
-                
+
             </div>
 
             <script class="code" type="text/javascript">
@@ -1992,7 +1996,7 @@
             <p>Scroll not only the sortable container/document but a parent container too:</p>
 
             <div class="parent">
-                
+
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo dolor magna, ac lacinia odio. Mauris eget viverra est. Suspendisse potenti. Donec mollis, magna ac consectetur iaculis, nisi felis mollis mi, at consectetur justo tortor nec neque. Fusce sodales ullamcorper metus, lacinia placerat leo molestie vitae. Ut nec enim sem, quis tristique orci. Duis lobortis quam ac massa tincidunt id pharetra libero facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer vel purus lacus. Fusce auctor rutrum quam, a sollicitudin purus lobortis et. Aenean non lorem vel ligula euismod interdum. Sed sit amet scelerisque lectus. Nunc rutrum varius sapien sit amet pellentesque.</p>
 
                 <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>
@@ -2063,7 +2067,7 @@
                         <li>Item 26</li>
                     </ul>
                 </div>
-                
+
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo dolor magna, ac lacinia odio. Mauris eget viverra est. Suspendisse potenti. Donec mollis, magna ac consectetur iaculis, nisi felis mollis mi, at consectetur justo tortor nec neque. Fusce sodales ullamcorper metus, lacinia placerat leo molestie vitae. Ut nec enim sem, quis tristique orci. Duis lobortis quam ac massa tincidunt id pharetra libero facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer vel purus lacus. Fusce auctor rutrum quam, a sollicitudin purus lobortis et. Aenean non lorem vel ligula euismod interdum. Sed sit amet scelerisque lectus. Nunc rutrum varius sapien sit amet pellentesque.</p>
 
                 <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>                
