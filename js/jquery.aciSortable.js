@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.5.0
+ * aciSortable jQuery Plugin v1.5.1
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -619,6 +619,9 @@
                         }
                     }
                 }
+            } else {
+                this._instance.lastCheck = {
+                };
             }
             // no drop-target
             if (!this._instance.options.gluedPlaceholder) {
