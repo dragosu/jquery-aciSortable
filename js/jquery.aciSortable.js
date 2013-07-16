@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.5.1
+ * aciSortable jQuery Plugin v1.6.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2013 Dragos Ursu
@@ -56,6 +56,8 @@
         draggable: true,                                                      // if FALSE then the items can only be sorted inside the same container
         gluedPlaceholder: false,                                              // if TRUE then the placeholder will always be visible
         connectDrop: null,                                                    // selector for other sortables to connect this sortable with (as drop targets)
+        dropPosition: null,                                                   // if -1 then the placeholder will always be before the first item, if 1 then will be after the last item
+        simpleDrop: null,                                                     // selector for other elements to connect this sortable with (as drop targets)
         scroll: 80,                                                           // the distance from margin to consider for scrolling speed[pixels/50ms]=options.scroll/[1+1.04^(-distance+60)]
         // use NULL to disable scrolling
         scrollParent: 'window',                                               // selector for parent elements to scroll (when in drag and the mouse pointer gets close to a margin)
@@ -101,7 +103,7 @@
                     return !hover.is(this._instance.options.exclude);
                 } else {
                     var container = this.containerFrom(hover);
-                    return !container.is(this._instance.options.exclude) && !hover.is(this._instance.options.exclude);
+                    return !container.is(this._instance.options.exclude);
                 }
             }
             return true;
@@ -139,10 +141,11 @@
         /**
          * Called on drag end (the item should be repositioned here based on the placeholder).
          * @param {jQuery} item The sorted element
+         * @param {jQuery} hover The element under the mouse pointer
          * @param {jQuery} placeholder The placeholder element (need to be detached)
          * @param {jQuery} helper The element that follows the mouse pointer (need to be detached)
          */
-        end: function(item, placeholder, helper) {
+        end: function(item, hover, placeholder, helper) {
             // test if placeholder is inserted into the DOM
             if (placeholder.parent().length) {
                 // add the item after placeholder
@@ -200,14 +203,19 @@
                 // mousemove over a item
                 if (this._instance.sorting) {
                     event.stopPropagation();
+                    this._instance.isContainer = false;
                     var item = this.itemFrom(event.target);
                     if (this._instance.item.has(item).length) {
                         // the parent can't be dropped over his childrens
                         this._instance.hoverItem = null;
                     } else {
-                        this._instance.hoverItem = item;
+                        if (this._instance.options.dropPosition === null) {
+                            this._instance.hoverItem = item;
+                        } else {
+                            var container = this.containerFrom(event.target);
+                            this._dropPosition(container);
+                        }
                     }
-                    this._instance.isContainer = false;
                 }
                 this._drag(event);
             })).on('mousemove' + this._instance.nameSpace, this._instance.options.container, this.proxy(function(event) {
@@ -215,15 +223,25 @@
                 if (this._instance.sorting) {
                     event.stopPropagation();
                     var container = this.containerFrom(event.target);
-                    if (this.isEmpty(container) && !this._instance.item.has(container).length) {
-                        // allow empty container to be a drop target
-                        this._instance.hoverItem = container;
-                        this._instance.isContainer = true;
-                        this._drag(event);
+                    if (!this._instance.item.has(container).length) {
+                        // allow container to be a drop target
+                        if (this.isEmpty(container)) {
+                            this._instance.hoverItem = container;
+                            this._instance.isContainer = true;
+                        } else {
+                            this._instance.isContainer = false;
+                            if (this._instance.options.dropPosition === null) {
+                                this._instance.hoverItem = this._closestFrom(event);
+                            } else {
+                                this._dropPosition(container);
+                            }
+                        }
                     }
                 }
+                this._drag(event);
             }));
             this._initConnect();
+            this._initSimple();
             // ensure we proceess on move/end outside of container
             $(window.document).bind('mousemove' + this._instance.nameSpace + this._instance.index, this.proxy(function(event) {
                 // mousemove outside of the sortable
@@ -242,6 +260,7 @@
                             pageX: event.pageX,
                             pageY: event.pageY
                         }));
+                        event.stopPropagation();
                     }
                 }
             })).bind('selectstart' + this._instance.nameSpace + this._instance.index, this.proxy(function(event) {
@@ -259,6 +278,55 @@
                 }
             }));
             this._super();
+        },
+        // run when dropPosition is enabled
+        _dropPosition: function(container) {
+            if (this._instance.options.dropPosition == -1) {
+                this._instance.hoverItem = this._firstItem(container);
+            } else {
+                this._instance.hoverItem = this._lastItem(container);
+            }
+            if (!this._instance.hoverItem.length) {
+                this._instance.hoverItem = container;
+                this._instance.isContainer = true;
+            }
+        },
+        // get first item
+        _firstItem: function(container) {
+            return container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).first();
+        },
+        // get last item
+        _lastItem: function(container) {
+            return container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).last();
+        },
+        // get closest item from cursor
+        _closestFrom: function(event) {
+            var item = null;
+            var parent = $(event.target);
+            if (this._instance.options.vertical) {
+                var scroll = $(window).scrollTop();
+                var min = parent.height();
+                parent.find(this._instance.options.item).not(this._instance.options.placeholderSelector).each(function() {
+                    var rect = this.getBoundingClientRect();
+                    var diff = window.Math.abs(scroll + rect.top + (rect.bottom - rect.top) / 2 - event.pageY);
+                    if (diff < min) {
+                        min = diff;
+                        item = $(this);
+                    }
+                });
+            } else {
+                var scroll = $(window).scrollLeft();
+                var min = parent.width();
+                parent.find(this._instance.options.item).not(this._instance.options.placeholderSelector).each(function() {
+                    var rect = this.getBoundingClientRect();
+                    var diff = window.Math.abs(scroll + rect.left + (rect.right - rect.left) / 2 - event.pageX);
+                    if (diff < min) {
+                        min = diff;
+                        item = $(this);
+                    }
+                });
+            }
+            return item;
         },
         // get element from cursor
         _fromCursor: function(event) {
@@ -293,6 +361,28 @@
         _doneConnect: function() {
             $(window.document).off(this._instance.nameSpace + 'connect' + this._instance.index);
         },
+        // init simple drop
+        _initSimple: function() {
+            if (this._instance.options.simpleDrop) {
+                $(window.document).on('mousemove' + this._instance.nameSpace + 'simple' + this._instance.index, this._instance.options.simpleDrop, this.proxy(function(event) {
+                    // mousemove over the related elements
+                    var element = $(event.target);
+                    if (this._instance.sorting && !this._instance.jQuery.has(element).length) {
+                        event.stopPropagation();
+                        if (!element.is(this._instance.options.simpleDrop)) {
+                            element = element.closest(this._instance.options.simpleDrop);
+                        }
+                        this._instance.hoverItem = element;
+                        this._instance.isContainer = false;
+                    }
+                    this._drag(event);
+                }));
+            }
+        },
+        // done simple drop
+        _doneSimple: function() {
+            $(window.document).off(this._instance.nameSpace + 'simple' + this._instance.index);
+        },
         // trigger event
         _trigger: function(eventName, params) {
             var event = $.Event('acisortable');
@@ -306,6 +396,9 @@
                 toArray.push(params[i]);
             }
             var result = true;
+            if (!this._trigger('before' + callbackName, params)) {
+                return false;
+            }
             if (this._instance.options[callbackName]) {
                 result = this._instance.options[callbackName].apply(this, toArray);
             }
@@ -469,6 +562,14 @@
         // called to create a child container
         _onCreate: function() {
             this._onRemove();
+            if (this._instance.hoverItem.is(this._instance.options.exclude)) {
+                // prevent creating containers for excluded items
+                return false;
+            }
+            if (this._isSimple()) {
+                // prevent creating containers for simpleDrop targets
+                return false;
+            }
             if (this._call('create', {
                 item: this._instance.item,
                 hover: this._instance.hoverItem
@@ -511,6 +612,10 @@
                 isContainer: this._instance.isContainer
             };
             return result;
+        },
+        // test if over a simpleDrop target
+        _isSimple: function() {
+            return this._instance.options.simpleDrop && this._instance.hoverItem && this._instance.hoverItem.is(this._instance.options.simpleDrop);
         },
         // update placeholder
         _placeholder: function() {
@@ -565,6 +670,11 @@
                             before = true;
                         }
                     }
+                    if (this._instance.options.dropPosition == -1) {
+                        before = true;
+                    } else if (this._instance.options.dropPosition == 1) {
+                        before = false;
+                    }
                     if (create !== false) {
                         if (this._wasValid(before, create, true)) {
                             return;
@@ -583,7 +693,9 @@
                             return;
                         }
                         if (this._isValid(null)) {
-                            this._instance.hoverItem.append(this._instance.placeholder);
+                            if (!this._isSimple()) {
+                                this._instance.hoverItem.append(this._instance.placeholder);
+                            }
                             this._onDrag(true);
                             return;
                         }
@@ -597,7 +709,9 @@
                             }
                             var prevItem = this._instance.hoverItem.prev(this._instance.options.item);
                             if (this._instance.options.gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
-                                this._instance.hoverItem.before(this._instance.placeholder);
+                                if (!this._isSimple()) {
+                                    this._instance.hoverItem.before(this._instance.placeholder);
+                                }
                                 this._onDrag(true);
                                 return;
                             }
@@ -612,7 +726,9 @@
                             }
                             var nextItem = this._instance.hoverItem.next(this._instance.options.item);
                             if (this._instance.options.gluedPlaceholder || (nextItem.get(0) != this._instance.item.get(0))) {
-                                this._instance.hoverItem.after(this._instance.placeholder);
+                                if (!this._isSimple()) {
+                                    this._instance.hoverItem.after(this._instance.placeholder);
+                                }
                                 this._onDrag(true);
                                 return;
                             }
@@ -664,41 +780,37 @@
                 right: width,
                 bottom: height
             } : container.get(0).getBoundingClientRect();
-            if (scrollHeight > height) {
-                if ((this._instance.pointNow.x > left + rect.left) && (this._instance.pointNow.x < left + rect.right)) {
-                    var now = container.scrollTop();
-                    if (this._instance.pointNow.y < top + rect.top + margin) {
-                        if (now > 0) {
-                            var distance = top + rect.top + margin - this._instance.pointNow.y;
-                            container.scrollTop(window.Math.max(now - this._amount(margin, distance), 0));
-                            updated = true;
-                        }
-                    } else if (this._instance.pointNow.y > top + rect.bottom - margin) {
-                        if (now + height < scrollHeight) {
-                            var distance = this._instance.pointNow.y - (top + rect.bottom - margin);
-                            container.scrollTop(window.Math.min(now + this._amount(margin, distance), scrollHeight - height));
-                            updated = true;
-                        }
+            if ((scrollHeight > height) && (this._instance.pointNow.x > left + rect.left) && (this._instance.pointNow.x < left + rect.right)) {
+                var now = container.scrollTop();
+                if (this._instance.pointNow.y < top + rect.top + margin) {
+                    if (now > 0) {
+                        var distance = top + rect.top + margin - this._instance.pointNow.y;
+                        container.scrollTop(window.Math.max(now - this._amount(margin, distance), 0));
+                        updated = true;
+                    }
+                } else if (this._instance.pointNow.y > top + rect.bottom - margin) {
+                    if (now + height < scrollHeight) {
+                        var distance = this._instance.pointNow.y - (top + rect.bottom - margin);
+                        container.scrollTop(window.Math.min(now + this._amount(margin, distance), scrollHeight - height));
+                        updated = true;
                     }
                 }
             }
             var scrollWidth = isWindow ? window.document.body.scrollWidth : container.get(0).scrollWidth;
             margin = window.Math.min(this._instance.options.scroll, width / 3);
-            if (scrollWidth > width) {
-                if ((this._instance.pointNow.y > top + rect.top) && (this._instance.pointNow.y < top + rect.bottom)) {
-                    var now = container.scrollLeft();
-                    if (this._instance.pointNow.x < left + rect.left + margin) {
-                        if (now > 0) {
-                            var distance = left + rect.left + margin - this._instance.pointNow.x;
-                            container.scrollLeft(window.Math.max(now - this._amount(margin, distance), 0));
-                            updated = true;
-                        }
-                    } else if (this._instance.pointNow.x > left + rect.right - margin) {
-                        if (now + width < scrollWidth) {
-                            var distance = this._instance.pointNow.x - (left + rect.right - margin);
-                            container.scrollLeft(window.Math.min(now + this._amount(margin, distance), scrollWidth - width));
-                            updated = true;
-                        }
+            if ((scrollWidth > width) && (this._instance.pointNow.y > top + rect.top) && (this._instance.pointNow.y < top + rect.bottom)) {
+                var now = container.scrollLeft();
+                if (this._instance.pointNow.x < left + rect.left + margin) {
+                    if (now > 0) {
+                        var distance = left + rect.left + margin - this._instance.pointNow.x;
+                        container.scrollLeft(window.Math.max(now - this._amount(margin, distance), 0));
+                        updated = true;
+                    }
+                } else if (this._instance.pointNow.x > left + rect.right - margin) {
+                    if (now + width < scrollWidth) {
+                        var distance = this._instance.pointNow.x - (left + rect.right - margin);
+                        container.scrollLeft(window.Math.min(now + this._amount(margin, distance), scrollWidth - width));
+                        updated = true;
                     }
                 }
             }
@@ -754,6 +866,7 @@
             var container = this.containerFrom(this._instance.item);
             this._call('end', {
                 item: this._instance.item,
+                hover: this._instance.hoverItem,
                 placeholder: this._instance.placeholder,
                 helper: this._instance.helper
             });
@@ -773,10 +886,21 @@
         // override set option
         option: function(option, value) {
             if (this.wasInit()) {
-                if ((option == 'connectDrop') && (value != this._instance.options.connectDrop)) {
-                    this._doneConnect();
-                    this._instance.options.connectDrop = value;
-                    this._initConnect();
+                switch (option) {
+                    case 'connectDrop':
+                        if (value != this._instance.options.connectDrop) {
+                            this._doneConnect();
+                            this._instance.options.connectDrop = value;
+                            this._initConnect();
+                        }
+                        break;
+                    case 'simpleDrop':
+                        if (value != this._instance.options.simpleDrop) {
+                            this._doneSimple();
+                            this._instance.options.simpleDrop = value;
+                            this._initSimple();
+                        }
+                        break;
                 }
             }
             // call the parent

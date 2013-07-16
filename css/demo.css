@@ -44,7 +44,15 @@ ul{
     overflow-y:scroll;
     background-color: #e3edf9;
 }
-.sort>ul, .sort-h>ul {
+.sort>ul {
+    min-height:480px;
+    border:none;
+}
+.sort>p {
+    padding:20px;
+    margin:0;
+}
+.sort-h>ul {
     border:none;
 }
 li{
@@ -75,6 +83,7 @@ ul.exclude, ul.exclude>li, li.exclude {
 }            
 .options {
     position:fixed;
+    opacity:0.2;
     top:20px;
     left:50%;
     width:350px;
@@ -82,9 +91,8 @@ ul.exclude, ul.exclude>li, li.exclude {
     border:1px solid #000;
     padding:20px;
 }
-.options label {
-    display:block;
-    padding:5px;
+.options:hover {
+    opacity:0.9;
 }
 .dragHandle {
     width:20px;

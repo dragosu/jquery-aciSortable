@@ -1,14 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<!DOCTYPE HTML>
+<html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <meta name="language" content="en" />
-        <meta name="robots" content="index, follow" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="language" content="en">
+        <meta name="robots" content="index, follow">
         <title>aciSortable demo - Sort a list of items (including nested items)</title>
-        <meta name="description" content="A demo to show you how aciSortable can be used, check the plugin page to see all the functions exposed by the API" />
-        <meta name="keywords" content="aciSortable, sort items, sortable, nested, javascript, jQuery" />
-        <link rel="stylesheet" type="text/css" href="css/aciSortable.css" media="all" />
-        <link rel="stylesheet" type="text/css" href="css/demo.css" media="all" />
+        <meta name="description" content="A demo to show you how aciSortable can be used, check the plugin page to see all the functions exposed by the API">
+        <meta name="keywords" content="aciSortable, sort items, sortable, nested, javascript, jQuery">
+        <link rel="stylesheet" type="text/css" href="css/aciSortable.css" media="all">
+        <link rel="stylesheet" type="text/css" href="css/demo.css" media="all">
         <script type="text/javascript" src="js/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.aciPlugin.min.js"></script>
         <script type="text/javascript" src="js/jquery.aciSortable.js"></script>
@@ -16,6 +16,8 @@
     <body>
 
         <div>
+
+            <p>See a little game using aciSortable <a href="tower-of-hanoi.html" target="_blank" title="Tower of Hanoi">here</a></p>
 
             <p>Note: <b>only on examples that implement the exclude option</b> the 
                 dark grey background items/containers are items that can't be dragged and containers that can't receive dragged items.</p>
@@ -31,9 +33,9 @@
             <div class="sort sort1">
                 <ul>
                     <li>Item 1 
-                        <input type="checkbox" />
+                        <input type="checkbox">
                         <a href="#" title="">link</a>
-                        <input type="text" />
+                        <input type="text">
                         <button type="button">Click Me!</button>                     
                         <select>
                             <option value="volvo">Volvo</option>
@@ -110,9 +112,9 @@
             <div class="sort sort2">
                 <ul>
                     <li>Item 1
-                        <input type="checkbox" />
+                        <input type="checkbox">
                         <a href="#" title="">link</a>
-                        <input type="text" />
+                        <input type="text">
                         <button type="button">Click Me!</button>                     
                         <select>
                             <option value="volvo">Volvo</option>
@@ -186,7 +188,7 @@
 
             </script>            
 
-            <p>Show how options.before and options.valid callbacks can be used
+            <p>Show how options.before, options.create and options.valid callbacks can be used
                 to prevent dragging a item and to prevent drop to a target (instead of using options.exclude as in the prevoius example):</p>
 
             <p>Note: invalid drop targets - like before/after the sorted item, parent dragged over his childrens, item dragged outside of the top container etc.
@@ -197,9 +199,9 @@
                 <div class="sort sort3">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -264,9 +266,9 @@
                 <div class="sort sort3b events">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -340,13 +342,20 @@
                             var container = this.containerFrom(item);
                             return !container.hasClass('exclude') && !item.hasClass('exclude');
                         },
+                        create: function(item, hover) {
+                            if (hover.hasClass('exclude')) {
+                                return false;
+                            }
+                            // use the default implementation
+                            return $.fn.aciSortable.defaults.create.apply(this, arguments);
+                        },
                         valid: function(item, hover, before, isContainer, placeholder, helper) {
                             // the same implementation as the default but without using the options.exclude
                             if (isContainer) {
                                 return !hover.hasClass('exclude');
                             } else {
                                 var container = this.containerFrom(hover);
-                                return !container.hasClass('exclude') && !hover.hasClass('exclude');
+                                return !container.hasClass('exclude');
                             }
                         }
                     });
@@ -359,12 +368,19 @@
                                 var container = api.containerFrom(params.item);
                                 return !container.hasClass('exclude') && !params.item.hasClass('exclude');
                                 break;
+                            case 'beforecreate':
+                                // we use 'beforecreate' (instead of 'create') to prevent DOM changes
+                                // as it is triggered before calling the options.create callback
+                                if (params.hover.hasClass('exclude')) {
+                                    return false;
+                                }
+                                break;
                             case 'valid':
                                 if (params.isContainer) {
                                     return !params.hover.hasClass('exclude');
                                 } else {
                                     var container = api.containerFrom(params.hover);
-                                    return !container.hasClass('exclude') && !params.hover.hasClass('exclude');
+                                    return !container.hasClass('exclude');
                                 }
                                 break;
                         }
@@ -384,9 +400,9 @@
                 <div class="sort sort4">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -451,9 +467,9 @@
                 <div class="sort sort4b events">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -526,12 +542,12 @@
                         start: function(item, placeholder, helper) {
                             item.addClass('sorted');
                             // use the default implementation
-                            $.fn.aciSortable.defaults.start.call(this, item, placeholder, helper);
+                            $.fn.aciSortable.defaults.start.apply(this, arguments);
                         },
-                        end: function(item, placeholder, helper) {
+                        end: function(item, hover, placeholder, helper) {
                             item.removeClass('sorted');
                             // use the default implementation
-                            $.fn.aciSortable.defaults.end.call(this, item, placeholder, helper);
+                            $.fn.aciSortable.defaults.end.apply(this, arguments);
                         }
                     });
 
@@ -563,9 +579,9 @@
                 <div class="sort sort5">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -630,9 +646,9 @@
                 <div class="sort sort5b events">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -708,12 +724,12 @@
                         item.hide();
                         placeholder.html(item.html());
                         // use the default implementation
-                        $.fn.aciSortable.defaults.start.call(this, item, placeholder, helper);
+                        $.fn.aciSortable.defaults.start.apply(this, arguments);
                     },
-                    end: function(item, placeholder, helper) {
+                    end: function(item, hover, placeholder, helper) {
                         item.show();
                         // use the default implementation
-                        $.fn.aciSortable.defaults.end.call(this, item, placeholder, helper);
+                        $.fn.aciSortable.defaults.end.apply(this, arguments);
                     }
                 };
 
@@ -752,9 +768,9 @@
             <div class="sort sort6">
                 <ul>
                     <li>Item 1
-                        <input type="checkbox" />
+                        <input type="checkbox">
                         <a href="#" title="">link</a>
-                        <input type="text" />
+                        <input type="text">
                         <button type="button">Click Me!</button>                     
                         <select>
                             <option value="volvo">Volvo</option>
@@ -838,9 +854,9 @@
                 <div class="sort sort7">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -905,9 +921,9 @@
                 <div class="sort sort7b events">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1009,9 +1025,9 @@
                 <div class="sort sort8">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1076,9 +1092,9 @@
                 <div class="sort sort8b events">
                     <ul>
                         <li>Item 1
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1160,7 +1176,7 @@
                         },
                         valid: function(item, hover, before, isContainer, placeholder, helper) {
                             // use the default implementation
-                            if ($.fn.aciSortable.defaults.valid.call(this, item, hover, before, isContainer, helper)) {
+                            if ($.fn.aciSortable.defaults.valid.apply(this, arguments)) {
                                 // get item text
                                 var itemText = item.clone();
                                 itemText.find('ul').remove();
@@ -1233,9 +1249,9 @@
             <div class="sort sort9">
                 <ul>
                     <li><span class='dragHandle'></span>Item 1
-                        <input type="checkbox" />
+                        <input type="checkbox">
                         <a href="#" title="">link</a>
-                        <input type="text" />
+                        <input type="text">
                         <button type="button">Click Me!</button>                     
                         <select>
                             <option value="volvo">Volvo</option>
@@ -1311,16 +1327,17 @@
             </script>      
 
             <p>Connect more sortables together for drag&drop. Notice the use of the options.connectDrop for each of them, meaning each of the 
-                aciSortable can drop items to the other aciSortable(s):</p>
+                aciSortable can drop items to the other aciSortable(s). The dragged item will be passed to the target aciSortable instance once we hover
+                over one, this means the final drop (options.end callback) will be handled by the destination aciSortable instance and not the source:</p>
 
             <div class="float">
 
                 <div class="sort sort10">
                     <ul>
-                        <li></span>Item 1A
-                            <input type="checkbox" />
+                        <li>Item 1A
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1330,64 +1347,64 @@
                             </select>
                             <textarea>text area</textarea>                      
                         </li>
-                        <li></span>Item 2 
+                        <li>Item 2 
                             <ul class="exclude">
-                                <li></span>Item 2.1</li>
-                                <li></span>Item 2.2</li>
-                                <li></span>Item 2.3</li>
-                                <li></span>Item 2.4
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
                                     <ul>
-                                        <li></span>Item 2.4.1</li>
-                                        <li></span>Item 2.4.2</li>
-                                        <li></span>Item 2.4.3
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
                                             <ul>
                                             </ul>                                    
                                         </li>
                                     </ul>                            
                                 </li>
-                                <li></span>Item 2.5</li>
+                                <li>Item 2.5</li>
                             </ul>
                         </li>
-                        <li></span>Item 3</li>
-                        <li></span>Item 4
+                        <li>Item 3</li>
+                        <li>Item 4
                             <ul>
                             </ul>
                         </li>
-                        <li></span>Item 5</li>
-                        <li></span>Item 6</li>
-                        <li></span>Item 7</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
                         <li class="exclude"></span>Item 8</li>
-                        <li></span>Item 9</li>
-                        <li></span>Item 10</li>
-                        <li></span>Item 11</li>
-                        <li></span>Item 12
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
                             <ul>
-                                <li></span>Item 12.1</li>
+                                <li>Item 12.1</li>
                             </ul>                     
                         </li>
-                        <li></span>Item 13</li>
-                        <li></span>Item 14</li>
-                        <li></span>Item 15</li>
-                        <li></span>Item 16</li>
-                        <li></span>Item 17</li>
-                        <li></span>Item 18</li>
-                        <li></span>Item 19</li>
-                        <li></span>Item 20</li>
-                        <li></span>Item 21</li>
-                        <li></span>Item 22</li>
-                        <li></span>Item 23</li>
-                        <li></span>Item 24</li>
-                        <li></span>Item 25</li>
-                        <li></span>Item 26</li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
                     </ul>
                 </div>
 
                 <div class="sort sort11">
                     <ul>
-                        <li></span>Item 1B
-                            <input type="checkbox" />
+                        <li>Item 1B
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1397,64 +1414,64 @@
                             </select>
                             <textarea>text area</textarea>                      
                         </li>
-                        <li></span>Item 2 
+                        <li>Item 2 
                             <ul class="exclude">
-                                <li></span>Item 2.1</li>
-                                <li></span>Item 2.2</li>
-                                <li></span>Item 2.3</li>
-                                <li></span>Item 2.4
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
                                     <ul>
-                                        <li></span>Item 2.4.1</li>
-                                        <li></span>Item 2.4.2</li>
-                                        <li></span>Item 2.4.3
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
                                             <ul>
                                             </ul>                                    
                                         </li>
                                     </ul>                            
                                 </li>
-                                <li></span>Item 2.5</li>
+                                <li>Item 2.5</li>
                             </ul>
                         </li>
-                        <li></span>Item 3</li>
-                        <li></span>Item 4
+                        <li>Item 3</li>
+                        <li>Item 4
                             <ul>
                             </ul>
                         </li>
-                        <li></span>Item 5</li>
-                        <li></span>Item 6</li>
-                        <li></span>Item 7</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
                         <li class="exclude"></span>Item 8</li>
-                        <li></span>Item 9</li>
-                        <li></span>Item 10</li>
-                        <li></span>Item 11</li>
-                        <li></span>Item 12
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
                             <ul>
-                                <li></span>Item 12.1</li>
+                                <li>Item 12.1</li>
                             </ul>                     
                         </li>
-                        <li></span>Item 13</li>
-                        <li></span>Item 14</li>
-                        <li></span>Item 15</li>
-                        <li></span>Item 16</li>
-                        <li></span>Item 17</li>
-                        <li></span>Item 18</li>
-                        <li></span>Item 19</li>
-                        <li></span>Item 20</li>
-                        <li></span>Item 21</li>
-                        <li></span>Item 22</li>
-                        <li></span>Item 23</li>
-                        <li></span>Item 24</li>
-                        <li></span>Item 25</li>
-                        <li></span>Item 26</li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
                     </ul>
                 </div>     
 
                 <div class="sort sort12">
                     <ul>
-                        <li></span>Item 1C
-                            <input type="checkbox" />
+                        <li>Item 1C
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1464,55 +1481,55 @@
                             </select>
                             <textarea>text area</textarea>                      
                         </li>
-                        <li></span>Item 2 
+                        <li>Item 2 
                             <ul class="exclude">
-                                <li></span>Item 2.1</li>
-                                <li></span>Item 2.2</li>
-                                <li></span>Item 2.3</li>
-                                <li></span>Item 2.4
+                                <li>Item 2.1</li>
+                                <li>Item 2.2</li>
+                                <li>Item 2.3</li>
+                                <li>Item 2.4
                                     <ul>
-                                        <li></span>Item 2.4.1</li>
-                                        <li></span>Item 2.4.2</li>
-                                        <li></span>Item 2.4.3
+                                        <li>Item 2.4.1</li>
+                                        <li>Item 2.4.2</li>
+                                        <li>Item 2.4.3
                                             <ul>
                                             </ul>                                    
                                         </li>
                                     </ul>                            
                                 </li>
-                                <li></span>Item 2.5</li>
+                                <li>Item 2.5</li>
                             </ul>
                         </li>
-                        <li></span>Item 3</li>
-                        <li></span>Item 4
+                        <li>Item 3</li>
+                        <li>Item 4
                             <ul>
                             </ul>
                         </li>
-                        <li></span>Item 5</li>
-                        <li></span>Item 6</li>
-                        <li></span>Item 7</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                        <li>Item 7</li>
                         <li class="exclude"></span>Item 8</li>
-                        <li></span>Item 9</li>
-                        <li></span>Item 10</li>
-                        <li></span>Item 11</li>
-                        <li></span>Item 12
+                        <li>Item 9</li>
+                        <li>Item 10</li>
+                        <li>Item 11</li>
+                        <li>Item 12
                             <ul>
-                                <li></span>Item 12.1</li>
+                                <li>Item 12.1</li>
                             </ul>                     
                         </li>
-                        <li></span>Item 13</li>
-                        <li></span>Item 14</li>
-                        <li></span>Item 15</li>
-                        <li></span>Item 16</li>
-                        <li></span>Item 17</li>
-                        <li></span>Item 18</li>
-                        <li></span>Item 19</li>
-                        <li></span>Item 20</li>
-                        <li></span>Item 21</li>
-                        <li></span>Item 22</li>
-                        <li></span>Item 23</li>
-                        <li></span>Item 24</li>
-                        <li></span>Item 25</li>
-                        <li></span>Item 26</li>
+                        <li>Item 13</li>
+                        <li>Item 14</li>
+                        <li>Item 15</li>
+                        <li>Item 16</li>
+                        <li>Item 17</li>
+                        <li>Item 18</li>
+                        <li>Item 19</li>
+                        <li>Item 20</li>
+                        <li>Item 21</li>
+                        <li>Item 22</li>
+                        <li>Item 23</li>
+                        <li>Item 24</li>
+                        <li>Item 25</li>
+                        <li>Item 26</li>
                     </ul>
                 </div>                
 
@@ -1548,9 +1565,9 @@
                 <div class="sort sort13">
                     <ul>
                         <li>Item 1A
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1615,9 +1632,9 @@
                 <div class="sort sort14">
                     <ul>
                         <li>Item 1B
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1682,9 +1699,9 @@
                 <div class="sort sort15">
                     <ul>
                         <li>Item 1C
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -1772,7 +1789,7 @@
                             }
                             item.slideUp();
                         },
-                        end: function(item, placeholder, helper) {
+                        end: function(item, hover, placeholder, helper) {
                             if (placeholder.parent().length) {
                                 // add item after placeholder
                                 placeholder.after(item).detach();
@@ -1815,7 +1832,7 @@
                             }
                             item.slideUp();
                         },
-                        end: function(item, placeholder, helper) {
+                        end: function(item, hover, placeholder, helper) {
                             if (placeholder.parent().length) {
                                 // add item after placeholder
                                 placeholder.after(item).detach();
@@ -1873,7 +1890,7 @@
                                 helper.appendTo(window.document.body).fadeIn();
                             }
                         },
-                        end: function(item, placeholder, helper) {
+                        end: function(item, hover, placeholder, helper) {
                             if (placeholder.parent().length) {
                                 // add item after placeholder
                                 placeholder.after(item).detach();
@@ -2004,9 +2021,9 @@
                 <div class="sort sort17">
                     <ul>
                         <li>Item 1 
-                            <input type="checkbox" />
+                            <input type="checkbox">
                             <a href="#" title="">link</a>
-                            <input type="text" />
+                            <input type="text">
                             <button type="button">Click Me!</button>                     
                             <select>
                                 <option value="volvo">Volvo</option>
@@ -2087,15 +2104,202 @@
 
             </script>                            
 
+            <p>Using options.dropPosition to set the drop position into last place for the right-side sortable,
+                also the items can't be sorted for the right-side sortable:</p>
+
+            <div class="float">
+
+                <div class="sort sort18">
+                    <ul>
+                        <li>Item 1A</li>
+                        <li>Item 2A</li>
+                        <li>Item 3A</li>
+                        <li>Item 4A</li>
+                        <li>Item 5A</li>
+                        <li>Item 6A</li>
+                        <li>Item 7A</li>
+                        <li class="exclude"></span>Item 8A</li>
+                        <li>Item 9A</li>
+                        <li>Item 10A</li>
+                        <li>Item 11A</li>
+                        <li>Item 12A</li>
+                        <li>Item 13A</li>
+                        <li>Item 14A</li>
+                        <li>Item 15A</li>
+                        <li>Item 16A</li>
+                        <li>Item 17A</li>
+                        <li>Item 18A</li>
+                        <li>Item 19A</li>
+                        <li>Item 20A</li>
+                        <li>Item 21A</li>
+                        <li>Item 22A</li>
+                        <li>Item 23A</li>
+                        <li>Item 24A</li>
+                        <li>Item 25A</li>
+                        <li>Item 26A</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort19">
+                    <ul>
+                        <li>Item 1B</li>
+                        <li>Item 2B</li>
+                        <li>Item 3B</li>
+                        <li>Item 4B</li>
+                        <li>Item 5B</li>
+                        <li>Item 6B</li>
+                        <li>Item 7B</li>
+                        <li class="exclude"></span>Item 8B</li>
+                        <li>Item 9B</li>
+                        <li>Item 10B</li>
+                    </ul>
+                </div>     
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort18').aciSortable({
+                        exclude: '.exclude',
+                        connectDrop: '.sort19'
+                    });
+
+                    $('.sort19').aciSortable({
+                        exclude: '.exclude',
+                        connectDrop: '.sort18',
+                        dropPosition: 1,
+                        valid: function(item, hover, before, isContainer, placeholder, helper) {
+                            if (this.sortableFrom(item).get(0) == this._instance.jQuery.get(0)) {
+                                // prevent sorting items
+                                return false;
+                            }
+                            return $.fn.aciSortable.defaults.valid.apply(this, arguments);
+                        },
+                        end: function(item, hover, placeholder, helper) {
+                            $.fn.aciSortable.defaults.end.apply(this, arguments);
+                            // scroll to the end
+                            this._instance.jQuery.scrollTop(this._instance.jQuery.get(0).scrollHeight);
+                        }
+                    });
+
+                });
+
+            </script>                 
+
+            <p>Using options.simpleDrop to connect with a element that does not need to be an aciSortable instance. This is similar with options.connectDrop
+                but - because the destination it's not an aciSortable instance - the source of the dragged element need to handle the
+                drop to the target (using the options.end callback):</p>
+
+            <div class="float">
+
+                <div class="sort sort20">
+                    <ul>
+                        <li>Item 1A</li>
+                        <li>Item 2A</li>
+                        <li>Item 3A</li>
+                        <li>Item 4A</li>
+                        <li>Item 5A</li>
+                        <li>Item 6A</li>
+                        <li>Item 7A</li>
+                        <li class="exclude"></span>Item 8A</li>
+                        <li>Item 9A</li>
+                        <li>Item 10A</li>
+                        <li>Item 11A</li>
+                        <li>Item 12A</li>
+                        <li>Item 13A</li>
+                        <li>Item 14A</li>
+                        <li>Item 15A</li>
+                        <li>Item 16A</li>
+                        <li>Item 17A</li>
+                        <li>Item 18A</li>
+                        <li>Item 19A</li>
+                        <li>Item 20A</li>
+                        <li>Item 21A</li>
+                        <li>Item 22A</li>
+                        <li>Item 23A</li>
+                        <li>Item 24A</li>
+                        <li>Item 25A</li>
+                        <li>Item 26A</li>
+                    </ul>
+                </div>
+
+                <div class="sort sort21">
+                    <ul>
+                        <li>Drop here ...</li>
+                    </ul>                    
+                </div>     
+
+                <div class="sort sort22">
+                    <p>Drop here ...</p>
+                </div>                  
+
+                <input id="text-field" type="text" style="width:300px;margin-bottom:10px" value="Drop here ...">
+                <select id="select-field" style="width:300px;margin-bottom:10px"><option>Drop here ...</option></select>
+                <textarea id="textarea-field" style="width:300px;height:100px;margin-bottom:10px">Drop here ...</textarea>
+
+            </div>
+
+            <script class="code" type="text/javascript">
+
+                $(function() {
+
+                    $('.sort20').aciSortable({
+                        exclude: '.exclude',
+                        simpleDrop: '.sort21,.sort22,#text-field,#select-field,#textarea-field',
+                        valid: function(item, hover, before, isContainer, placeholder, helper) {
+                            if (this.sortableFrom(hover).get(0) == this._instance.jQuery.get(0)) {
+                                // prevent sorting items
+                                return false;
+                            }
+                            return $.fn.aciSortable.defaults.valid.apply(this, arguments);
+                        },
+                        end: function(item, hover, placeholder, helper) {
+                            if (hover) {
+                                var clone = item.clone();
+                                clone.children(this._instance.options.container).remove();
+                                var id = hover.attr('id');
+                                if (id) {
+                                    // one input element
+                                    switch (id) {
+                                        case 'text-field':
+                                            hover.val(clone.text());
+                                            break;
+                                        case 'select-field':
+                                            hover.append('<option>' + clone.text() + '</option>');
+                                            break;
+                                        case 'textarea-field':
+                                            hover.val(hover.val() + '\n' + clone.text());
+                                            break;
+                                    }
+                                } else {
+                                    // a DIV container
+                                    if (hover.hasClass('sort21')) {
+                                        hover.find('li').html(clone.text());
+                                    } else if (hover.hasClass('sort22')) {
+                                        hover.find('p').html(clone.text());
+                                    }
+                                }
+                            }
+                            return $.fn.aciSortable.defaults.end.apply(this, arguments);
+                        }
+                    });
+
+                });
+
+            </script>                             
+
         </div>
 
         <div class="options">
-            <label>Add Child Containers <input id="child" type="checkbox" value="1" /></label>
-            <label>Draggable Between Parent/Child Containers <input id="draggable" type="checkbox" value="1" /></label>
-            <label>Always Show Placeholder <input id="gluedPlaceholder" type="checkbox" value="1" /></label>
-            <label>Helper Relative to Starting Point <input id="relative" type="checkbox" value="1" /></label>
-            <br />
-            (note: this will change the options for all sortables)
+            <p><label>Add Child Containers <input id="child" type="checkbox" value="1"></label></p>
+            <p><label>Draggable Between Parent/Child Containers <input id="draggable" type="checkbox" value="1"></label></p>
+            <p>(<span style="color:red">new</span>) Drop Position <label><input name="dropPosition" type="radio" value="null"> Auto</label> 
+                <label><input name="dropPosition" type="radio" value="-1"> First</label> <label><input name="dropPosition" type="radio" value="1"> Last</label></p>
+            <p><label>Always Show Placeholder <input id="gluedPlaceholder" type="checkbox" value="1"></label></p>
+            <p><label>Helper Relative to Starting Point <input id="relative" type="checkbox" value="1"></label></p>
+            <p>(note: this will change the options for all sortables)</p>
         </div>        
 
         <script type="text/javascript">
@@ -2104,6 +2308,7 @@
 
                 $('#child').prop('checked', false);
                 $('#draggable').prop('checked', true);
+                $('[name=dropPosition]:first').prop('checked', true);
                 $('#gluedPlaceholder').prop('checked', false);
                 $('#relative').prop('checked', false);
 
@@ -2117,6 +2322,11 @@
 
                 $('#draggable').click(function() {
                     $('.sort').aciSortable('option', 'draggable', $(this).is(':checked'));
+                });
+
+                $('[name=dropPosition]').click(function() {
+                    var value = ($(this).val() == 'null') ? null : (($(this).val() == '-1') ? -1 : 1);
+                    $('.sort').aciSortable('option', 'dropPosition', value);
                 });
 
                 $('#gluedPlaceholder').click(function() {

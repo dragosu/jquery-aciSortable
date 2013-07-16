@@ -20,7 +20,7 @@ $(function(){
 
 });
 
-aciSortable jQuery Plugin v1.5.1
+aciSortable jQuery Plugin v1.6.0
 http://acoderinsights.ro
 
 Copyright (c) 2013 Dragos Ursu

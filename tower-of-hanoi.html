@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="language" content="en" />
+        <meta name="robots" content="index, follow" />
+        <title>aciSortable - Tower of Hanoi game</title>
+        <meta name="description" content="A demo to show you how aciSortable can be used, check the plugin page to see all the functions exposed by the API" />
+        <meta name="keywords" content="aciSortable, sort items, sortable, nested, javascript, jQuery" />
+        <script type="text/javascript" src="js/jquery.min.js"></script>
+        <script type="text/javascript" src="js/jquery.aciPlugin.min.js"></script>
+        <script type="text/javascript" src="js/jquery.aciSortable.js"></script>
+        <style type="text/css">
+            body {
+                width:600px;
+                margin:0;
+                padding:20px;
+            }
+            .towers {
+                overflow:hidden;
+            }
+            .tower {
+                float: left;
+                width:172px;
+                height:167px;
+                margin-right:20px;
+                background:url("image/tower.png") 0 0 no-repeat;
+                position:relative;
+            }
+            .tower ul {
+                width:170px;
+                overflow:show;
+                min-height:23px;
+                list-style:none;
+                padding:1px 0 0 0;
+                margin:0;
+                vertical-align:bottom;
+                position:absolute;
+                left:0;
+                bottom:7px;
+                border:1px dashed #000;
+            }
+            .tower ul:hover {
+                border-color:red;
+            }
+            .tower li {
+                display:block;
+                margin-bottom:1px;
+            }
+            .disk {
+                height:20px;
+                margin:0 auto 0 auto;
+                border:1px solid #000;
+            }
+            .disk1 {
+                width:60px;
+                background-color:#FFCCCC;
+            }
+            .disk2 {
+                width:80px;
+                background-color:#CCCC00;
+            }
+            .disk3 {
+                width:100px;
+                background-color:#FF9900;
+            }
+            .disk4 {
+                width:120px;
+                background-color:#CC99CC;
+            }
+            .disk5 {
+                width:140px;
+                background-color:#9999FF;
+            }
+            .disk6 {
+                width:160px;
+                background-color:#FF6666;
+            }
+            .aciSortableHelper {
+                position:absolute;
+                margin:20px 0 0 20px;
+            }
+        </style>
+    </head>
+    <body>
+
+        <p>Object of the game is to move all the disks over to Tower 3 (with your mouse).<br/>
+            But you cannot place a larger disk onto a smaller disk. </p>
+
+        <div class="towers">
+            <div class="tower tower1"><ul></ul><span>Tower 1</span></div>
+            <div class="tower tower2"><ul></ul><span>Tower 2</span></div>
+            <div class="tower tower3"><ul></ul><span>Tower 3</span></div>
+        </div>
+
+        <p>Set # disks: <select id="disks">
+                <option value="3">3 (min 7 moves)</option>
+                <option value="4">4 (min 15 moves)</option>
+                <option value="5">5 (min 31 moves)</option>
+                <option value="6">6 (min 63 moves)</option>
+            </select></p>
+        <p>Your moves: <span class="moves">0</span> </p>
+        <p class="result"></p>
+
+        <script class="code" type="text/javascript">
+
+            $(function() {
+
+                // a few helper functions
+
+                var moves;
+
+                function addDisk(index) {
+                    var li = $('<li class="disk disk' + index + '"></li>');
+                    li.data('index', index);
+                    $('.tower1 ul').append(li);
+                }
+
+                function setDisks(number) {
+                    moves = 0;
+                    showMoves();
+                    testFinish();
+                    $('.tower li').remove();
+                    for (var i = 1; i <= number; i++) {
+                        addDisk(i);
+                    }
+                }
+
+                function showMoves() {
+                    $('.moves').html(moves);
+                }
+
+                function testFinish() {
+                    if ($('.tower3 li').length == $('#disks').val()) {
+                        $('.result').html('Game over ! :)');
+                    } else {
+                        $('.result').html('drag & drop disks ...');
+                    }
+                }
+
+                setDisks(3);
+
+                $('#disks').val(3);
+
+                $('#disks').change(function() {
+                    setDisks($(this).val());
+                });
+
+
+                // use global options for all sortables
+
+                $.fn.aciSortable.defaults.before = function(item) {
+                    // only allow dragging top disk
+                    return !item.prev().length;
+                };
+
+                $.fn.aciSortable.defaults.start = function(item, placeholder, helper) {
+                    helper.hide().attr('class', 'aciSortableHelper disk disk' + item.data('index')).css('opacity', 1);
+                    item.css('opacity', 0.5);
+                };
+
+                $.fn.aciSortable.defaults.drag = function(item, placeholder, isValid, helper) {
+                    if (isValid) {
+                        helper.hide();
+                    } else {
+                        helper.show();
+                    }
+                };
+
+                $.fn.aciSortable.defaults.valid = function(item, hover, before, isContainer, placeholder, helper) {
+                    placeholder.attr('class', 'aciSortablePlaceholder disk disk' + item.data('index'));
+                    // only drop on empty tower or on top of bigger disk
+                    return isContainer || ((before === true) && !hover.prev().length && (hover.data('index') > item.data('index')));
+                };
+
+                $.fn.aciSortable.defaults.end = function(item, hover, placeholder, helper) {
+                    if (placeholder.parent().length) {
+                        // if placeholder is in DOM then move the item
+                        placeholder.after(item).detach();
+                        helper.detach();
+                        moves++;
+                        showMoves();
+                        testFinish();
+                    } else {
+                        // animate helper to current item pos
+                        var top = $(window).scrollTop();
+                        var left = $(window).scrollLeft();
+                        var rect = item.get(0).getBoundingClientRect();
+                        // animate helper to item position
+                        helper.animate({
+                            top: rect.top + top,
+                            left: rect.left + left,
+                            opacity: 0
+                        },
+                        {
+                            complete: function() {
+                                // when completed detach the helper
+                                helper.detach();
+                            }
+                        });
+                    }
+                    item.css('opacity', 1);
+                };
+
+
+                // init them all
+
+                $('.tower1').aciSortable({
+                    connectDrop: '.tower2,.tower3'
+                });
+
+                $('.tower2').aciSortable({
+                    connectDrop: '.tower1,.tower3'
+                });
+
+                $('.tower3').aciSortable({
+                    connectDrop: '.tower1,.tower2'
+                });
+
+            });
+
+        </script>                
+
+        <script type="text/javascript">
+
+            $(function() {
+
+                $('script.code').each(function() {
+                    $(this).before('<div style="clear:both"><pre style="padding:20px;border:1px dashed #000;background:#f6f6f6;display:inline-block;"></pre></div>');
+                    $(this).prev('div').find('pre').text($(this).text());
+                });
+
+            });
+
+        </script>        
+
+    </body>
+</html>
