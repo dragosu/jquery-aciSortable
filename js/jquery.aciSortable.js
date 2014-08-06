@@ -1,9 +1,9 @@
 
 /*
- * aciSortable jQuery Plugin v1.6.0
+ * aciSortable jQuery Plugin v1.6.1
  * http://acoderinsights.ro
  *
- * Copyright (c) 2013 Dragos Ursu
+ * Copyright (c) 2014 Dragos Ursu
  * Dual licensed under the MIT or GPL Version 2 licenses.
  *
  * Require jQuery Library >= v1.7.1 http://jquery.com
@@ -11,14 +11,14 @@
  */
 
 /*
- * Note: there is a placeholder that is always shown on the valid drop-targets 
+ * Note: there is a placeholder that is always shown on the valid drop-targets
  * and a helper that folows the mouse pointer on drag. You can offset the helper
- * by using CSS margins or you can hide it with CSS. The invalid non-draggable 
+ * by using CSS margins or you can hide it with CSS. The invalid non-draggable
  * items and the invalid drop targets will not show the placeholder. Also the
  * placeholder is not shown for silly drop-targets like before and after the
- * dragged item itself, the parent dragged over his childrens and when dragging 
+ * dragged item itself, the parent dragged over his childrens and when dragging
  * ouside of the top sortable container.
- * 
+ *
  * Use the options callback functions to implement your wanted functionality into
  * aciSortable. By using the options callbacks - you can:
  * + prevent a item to be dragged (see options.before);
@@ -194,7 +194,7 @@
                     event.preventDefault();
                 }
                 if (target.is(this._instance.options.container)) {
-                    // no drag for containers 
+                    // no drag for containers
                     $(window.document.body).css('cursor', 'no-drop');
                 } else {
                     this._delayStart(event);
@@ -550,7 +550,7 @@
                 item: this._instance.item,
                 hover: this._instance.hoverItem,
                 before: create ? null : ((before === null) ? false : before),
-                isContainer: create ? false : this._instance.isContainer,
+                isContainer: create ? true : this._instance.isContainer,
                 placeholder: this._instance.placeholder,
                 helper: this._instance.helper
             })) {

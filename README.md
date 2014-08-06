@@ -4,8 +4,8 @@ aciSortable - Sort a list of items (including nested items) with jQuery
 Features:
 
 - supports the sorting including child elements and reposition of the elements
-  in a tree like structure, drag & drop between different sortables and 
-  content scrolling when in drag;
+  in a tree like structure, drag & drop between different sortables and
+  content scrolling while in drag;
 
 - with the configuration options you can define your own HTML markup;
 
@@ -20,10 +20,10 @@ $(function(){
 
 });
 
-aciSortable jQuery Plugin v1.6.0
+aciSortable jQuery Plugin v1.6.1
 http://acoderinsights.ro
 
-Copyright (c) 2013 Dragos Ursu
+Copyright (c) 2014 Dragos Ursu
 Dual licensed under the MIT or GPL Version 2 licenses.
 
 Require jQuery Library >= v1.7.1 http://jquery.com

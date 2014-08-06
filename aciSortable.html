@@ -19,33 +19,33 @@
 
             <p>See a little game using aciSortable <a href="tower-of-hanoi.html" target="_blank" title="Tower of Hanoi">here</a></p>
 
-            <p>Note: <b>only on examples that implement the exclude option</b> the 
+            <p>Note: <b>only on examples that implement the exclude option</b> the
                 dark grey background items/containers are items that can't be dragged and containers that can't receive dragged items.</p>
 
             <p>Please note that the callback functions from inside the options object (used to initialise the sortable)
                 have a default implementation needed for the sortable to work. You can provide your own implementations on init, but you must ensure
                 all are valid as required by the plugin.</p>
 
-            <p>Using with the default options (see below for examples using the options callbacks and custom animations; 
+            <p>Using with the default options (see below for examples using the options callbacks and custom animations;
                 <b style="color:red">Note</b>: the yellow background examples are made using the events instead of options callbacks, to disable
                 the default implementation of options callbacks - when using events - pass NULL to the options callbacks on init):</p>
 
             <div class="sort sort1">
                 <ul>
-                    <li>Item 1 
+                    <li>Item 1
                         <input type="checkbox">
                         <a href="#" title="">link</a>
                         <input type="text">
-                        <button type="button">Click Me!</button>                     
+                        <button type="button">Click Me!</button>
                         <select>
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <textarea>text area</textarea>                                      
+                        <textarea>text area</textarea>
                     </li>
-                    <li>Item 2 
+                    <li>Item 2
                         <ul class="exclude">
                             <li>Item 2.1</li>
                             <li>Item 2.2</li>
@@ -56,9 +56,9 @@
                                     <li>Item 2.4.2</li>
                                     <li>Item 2.4.3
                                         <ul>
-                                        </ul>                                    
+                                        </ul>
                                     </li>
-                                </ul>                            
+                                </ul>
                             </li>
                             <li>Item 2.5</li>
                         </ul>
@@ -78,7 +78,7 @@
                     <li>Item 12
                         <ul>
                             <li>Item 12.1</li>
-                        </ul>                     
+                        </ul>
                     </li>
                     <li>Item 13</li>
                     <li>Item 14</li>
@@ -105,7 +105,7 @@
 
                 });
 
-            </script>                
+            </script>
 
             <p>Using the options.exclude to exclude items to be dragged and containers to receive dragged items:</p>
 
@@ -115,16 +115,16 @@
                         <input type="checkbox">
                         <a href="#" title="">link</a>
                         <input type="text">
-                        <button type="button">Click Me!</button>                     
+                        <button type="button">Click Me!</button>
                         <select>
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <textarea>text area</textarea>                      
+                        <textarea>text area</textarea>
                     </li>
-                    <li>Item 2 
+                    <li>Item 2
                         <ul class="exclude">
                             <li>Item 2.1</li>
                             <li>Item 2.2</li>
@@ -135,9 +135,9 @@
                                     <li>Item 2.4.2</li>
                                     <li>Item 2.4.3
                                         <ul>
-                                        </ul>                                    
+                                        </ul>
                                     </li>
-                                </ul>                            
+                                </ul>
                             </li>
                             <li>Item 2.5</li>
                         </ul>
@@ -157,7 +157,7 @@
                     <li>Item 12
                         <ul>
                             <li>Item 12.1</li>
-                        </ul>                     
+                        </ul>
                     </li>
                     <li>Item 13</li>
                     <li>Item 14</li>
@@ -186,13 +186,13 @@
 
                 });
 
-            </script>            
+            </script>
 
             <p>Show how options.before, options.create and options.valid callbacks can be used
                 to prevent dragging a item and to prevent drop to a target (instead of using options.exclude as in the prevoius example):</p>
 
             <p>Note: invalid drop targets - like before/after the sorted item, parent dragged over his childrens, item dragged outside of the top container etc.
-                are not considered when calling options.before and options.valid. They are seen from the start as invalid drop targets.</p>            
+                are not considered when calling options.before and options.valid. They are seen from the start as invalid drop targets.</p>
 
             <div class="float">
 
@@ -202,16 +202,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -222,9 +222,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -244,7 +244,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -269,16 +269,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -289,9 +289,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -311,7 +311,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -328,7 +328,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                
+                </div>
 
             </div>
 
@@ -390,9 +390,9 @@
 
                 });
 
-            </script>          
+            </script>
 
-            <p>Add an extra class on the sorted item and change his background (using the options.start and options.end callbacks). The 
+            <p>Add an extra class on the sorted item and change his background (using the options.start and options.end callbacks). The
                 class is removed once the dragged item is released:</p>
 
             <div class="float">
@@ -403,16 +403,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -423,9 +423,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -445,7 +445,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -470,16 +470,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -490,9 +490,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -512,7 +512,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -529,9 +529,9 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                
+                </div>
 
-            </div>                
+            </div>
 
             <script class="code" type="text/javascript">
 
@@ -570,7 +570,7 @@
 
                 });
 
-            </script>               
+            </script>
 
             <p>Hide the dragged item and show the item contents inside the placeholder (using options.start and options.end):</p>
 
@@ -582,16 +582,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                          
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -602,9 +602,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -624,7 +624,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -649,16 +649,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                          
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -669,9 +669,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -691,7 +691,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -759,7 +759,7 @@
 
                 });
 
-            </script>            
+            </script>
 
             <p>Same as previous example ... but always show the placeholder (using the options.gluedPlaceholder option):</p>
 
@@ -771,16 +771,16 @@
                         <input type="checkbox">
                         <a href="#" title="">link</a>
                         <input type="text">
-                        <button type="button">Click Me!</button>                     
+                        <button type="button">Click Me!</button>
                         <select>
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <textarea>text area</textarea>                      
+                        <textarea>text area</textarea>
                     </li>
-                    <li>Item 2 
+                    <li>Item 2
                         <ul class="exclude">
                             <li>Item 2.1</li>
                             <li>Item 2.2</li>
@@ -791,9 +791,9 @@
                                     <li>Item 2.4.2</li>
                                     <li>Item 2.4.3
                                         <ul>
-                                        </ul>                                    
+                                        </ul>
                                     </li>
-                                </ul>                            
+                                </ul>
                             </li>
                             <li>Item 2.5</li>
                         </ul>
@@ -813,7 +813,7 @@
                     <li>Item 12
                         <ul>
                             <li>Item 12.1</li>
-                        </ul>                     
+                        </ul>
                     </li>
                     <li>Item 13</li>
                     <li>Item 14</li>
@@ -844,7 +844,7 @@
 
                 });
 
-            </script>                    
+            </script>
 
             <p>Show the item content inside the helper (using the options.start callback), position the helper relative to the starting drag point
                 (using options.relative) and set opacity (so we can see the drop target beneath the helper):</p>
@@ -857,16 +857,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -877,9 +877,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -899,7 +899,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -924,16 +924,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -944,9 +944,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -966,7 +966,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -983,7 +983,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                
+                </div>
 
             </div>
 
@@ -1016,7 +1016,7 @@
 
                 });
 
-            </script>      
+            </script>
 
             <p>Show a custom helper content based on the placeholder position (using the options.drag and options.valid callbacks):</p>
 
@@ -1028,16 +1028,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1048,9 +1048,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1070,7 +1070,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1095,16 +1095,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1115,9 +1115,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1137,7 +1137,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1154,7 +1154,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                
+                </div>
 
             </div>
 
@@ -1242,7 +1242,7 @@
 
                 });
 
-            </script>        
+            </script>
 
             <p>Use options.handle to allow only dragging by a handle (the green square):</p>
 
@@ -1252,16 +1252,16 @@
                         <input type="checkbox">
                         <a href="#" title="">link</a>
                         <input type="text">
-                        <button type="button">Click Me!</button>                     
+                        <button type="button">Click Me!</button>
                         <select>
                             <option value="volvo">Volvo</option>
                             <option value="saab">Saab</option>
                             <option value="mercedes">Mercedes</option>
                             <option value="audi">Audi</option>
                         </select>
-                        <textarea>text area</textarea>                      
+                        <textarea>text area</textarea>
                     </li>
-                    <li><span class='dragHandle'></span>Item 2 
+                    <li><span class='dragHandle'></span>Item 2
                         <ul class="exclude">
                             <li><span class='dragHandle'></span>Item 2.1</li>
                             <li><span class='dragHandle'></span>Item 2.2</li>
@@ -1272,9 +1272,9 @@
                                     <li><span class='dragHandle'></span>Item 2.4.2</li>
                                     <li><span class='dragHandle'></span>Item 2.4.3
                                         <ul>
-                                        </ul>                                    
+                                        </ul>
                                     </li>
-                                </ul>                            
+                                </ul>
                             </li>
                             <li><span class='dragHandle'></span>Item 2.5</li>
                         </ul>
@@ -1294,7 +1294,7 @@
                     <li><span class='dragHandle'></span>Item 12
                         <ul>
                             <li><span class='dragHandle'></span>Item 12.1</li>
-                        </ul>                     
+                        </ul>
                     </li>
                     <li><span class='dragHandle'></span>Item 13</li>
                     <li><span class='dragHandle'></span>Item 14</li>
@@ -1324,9 +1324,9 @@
 
                 });
 
-            </script>      
+            </script>
 
-            <p>Connect more sortables together for drag&drop. Notice the use of the options.connectDrop for each of them, meaning each of the 
+            <p>Connect more sortables together for drag&drop. Notice the use of the options.connectDrop for each of them, meaning each of the
                 aciSortable can drop items to the other aciSortable(s). The dragged item will be passed to the target aciSortable instance once we hover
                 over one, this means the final drop (options.end callback) will be handled by the destination aciSortable instance and not the source:</p>
 
@@ -1338,16 +1338,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1358,9 +1358,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1380,7 +1380,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1405,16 +1405,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1425,9 +1425,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1447,7 +1447,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1464,7 +1464,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>     
+                </div>
 
                 <div class="sort sort12">
                     <ul>
@@ -1472,16 +1472,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1492,9 +1492,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1514,7 +1514,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1531,7 +1531,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                
+                </div>
 
             </div>
 
@@ -1556,7 +1556,7 @@
 
                 });
 
-            </script>                 
+            </script>
 
             <p>Using custom animations:</p>
 
@@ -1568,16 +1568,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1588,9 +1588,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1610,7 +1610,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1627,7 +1627,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>            
+                </div>
 
                 <div class="sort sort14">
                     <ul>
@@ -1635,16 +1635,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1655,9 +1655,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1677,7 +1677,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1694,7 +1694,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>         
+                </div>
 
                 <div class="sort sort15">
                     <ul>
@@ -1702,16 +1702,16 @@
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -1722,9 +1722,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -1744,7 +1744,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -1761,7 +1761,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>                       
+                </div>
 
             </div>
 
@@ -1923,7 +1923,7 @@
 
                 });
 
-            </script>              
+            </script>
 
             <p>Horizontal sortables:</p>
 
@@ -1957,7 +1957,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>       
+                </div>
 
                 <div class="sort-h line sort16b">
                     <ul>
@@ -1988,7 +1988,7 @@
                         <li>Item 25</li>
                         <li>Item 26</li>
                     </ul>
-                </div>         
+                </div>
 
             </div>
 
@@ -2008,7 +2008,7 @@
 
                 });
 
-            </script>                          
+            </script>
 
             <p>Scroll not only the sortable container/document but a parent container too:</p>
 
@@ -2020,20 +2020,20 @@
 
                 <div class="sort sort17">
                     <ul>
-                        <li>Item 1 
+                        <li>Item 1
                             <input type="checkbox">
                             <a href="#" title="">link</a>
                             <input type="text">
-                            <button type="button">Click Me!</button>                     
+                            <button type="button">Click Me!</button>
                             <select>
                                 <option value="volvo">Volvo</option>
                                 <option value="saab">Saab</option>
                                 <option value="mercedes">Mercedes</option>
                                 <option value="audi">Audi</option>
                             </select>
-                            <textarea>text area</textarea>                                      
+                            <textarea>text area</textarea>
                         </li>
-                        <li>Item 2 
+                        <li>Item 2
                             <ul class="exclude">
                                 <li>Item 2.1</li>
                                 <li>Item 2.2</li>
@@ -2044,9 +2044,9 @@
                                         <li>Item 2.4.2</li>
                                         <li>Item 2.4.3
                                             <ul>
-                                            </ul>                                    
+                                            </ul>
                                         </li>
-                                    </ul>                            
+                                    </ul>
                                 </li>
                                 <li>Item 2.5</li>
                             </ul>
@@ -2066,7 +2066,7 @@
                         <li>Item 12
                             <ul>
                                 <li>Item 12.1</li>
-                            </ul>                     
+                            </ul>
                         </li>
                         <li>Item 13</li>
                         <li>Item 14</li>
@@ -2087,7 +2087,7 @@
 
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur commodo dolor magna, ac lacinia odio. Mauris eget viverra est. Suspendisse potenti. Donec mollis, magna ac consectetur iaculis, nisi felis mollis mi, at consectetur justo tortor nec neque. Fusce sodales ullamcorper metus, lacinia placerat leo molestie vitae. Ut nec enim sem, quis tristique orci. Duis lobortis quam ac massa tincidunt id pharetra libero facilisis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer vel purus lacus. Fusce auctor rutrum quam, a sollicitudin purus lobortis et. Aenean non lorem vel ligula euismod interdum. Sed sit amet scelerisque lectus. Nunc rutrum varius sapien sit amet pellentesque.</p>
 
-                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>                
+                <p>Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Pellentesque nulla lectus, mollis vel rutrum nec, rhoncus sit amet lacus. Duis pretium vehicula lectus, eget adipiscing neque volutpat a. Nulla a elit quis orci laoreet luctus. Integer eleifend ante pulvinar neque feugiat mattis. Phasellus ornare tempus imperdiet. Ut sit amet arcu leo, in bibendum ante. Aenean vel magna in arcu consequat ultrices.</p>
 
             </div>
 
@@ -2102,7 +2102,7 @@
 
                 });
 
-            </script>                            
+            </script>
 
             <p>Using options.dropPosition to set the drop position into last place for the right-side sortable,
                 also the items can't be sorted for the right-side sortable:</p>
@@ -2153,7 +2153,7 @@
                         <li>Item 9B</li>
                         <li>Item 10B</li>
                     </ul>
-                </div>     
+                </div>
 
             </div>
 
@@ -2186,7 +2186,7 @@
 
                 });
 
-            </script>                 
+            </script>
 
             <p>Using options.simpleDrop to connect with a element that does not need to be an aciSortable instance. This is similar with options.connectDrop
                 but - because the destination it's not an aciSortable instance - the source of the dragged element need to handle the
@@ -2228,12 +2228,12 @@
                 <div class="sort sort21">
                     <ul>
                         <li>Drop here ...</li>
-                    </ul>                    
-                </div>     
+                    </ul>
+                </div>
 
                 <div class="sort sort22">
                     <p>Drop here ...</p>
-                </div>                  
+                </div>
 
                 <input id="text-field" type="text" style="width:300px;margin-bottom:10px" value="Drop here ...">
                 <select id="select-field" style="width:300px;margin-bottom:10px"><option>Drop here ...</option></select>
@@ -2288,19 +2288,19 @@
 
                 });
 
-            </script>                             
+            </script>
 
         </div>
 
         <div class="options">
             <p><label>Add Child Containers <input id="child" type="checkbox" value="1"></label></p>
             <p><label>Draggable Between Parent/Child Containers <input id="draggable" type="checkbox" value="1"></label></p>
-            <p>(<span style="color:red">new</span>) Drop Position <label><input name="dropPosition" type="radio" value="null"> Auto</label> 
+            <p>(<span style="color:red">new</span>) Drop Position <label><input name="dropPosition" type="radio" value="null"> Auto</label>
                 <label><input name="dropPosition" type="radio" value="-1"> First</label> <label><input name="dropPosition" type="radio" value="1"> Last</label></p>
             <p><label>Always Show Placeholder <input id="gluedPlaceholder" type="checkbox" value="1"></label></p>
             <p><label>Helper Relative to Starting Point <input id="relative" type="checkbox" value="1"></label></p>
             <p>(note: this will change the options for all sortables)</p>
-        </div>        
+        </div>
 
         <script type="text/javascript">
 
@@ -2338,13 +2338,13 @@
                 });
 
                 $('script.code').each(function() {
-                    $(this).before('<div style="clear:both"><pre style="padding:20px;border:1px dashed #000;background:#f6f6f6;display:inline-block;"></pre></div>');
+                    $(this).before('<div style="clear:both;margin:10px 0 10px 0"><pre style="padding:20px;border:1px dashed #000;background:#f6f6f6;display:inline-block;"></pre></div>');
                     $(this).prev('div').find('pre').text($(this).text());
                 });
 
             });
 
-        </script>        
+        </script>
 
     </body>
 </html>
