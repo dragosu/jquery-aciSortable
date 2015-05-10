@@ -104,7 +104,7 @@
 
         <script class="code" type="text/javascript">
 
-            $(function() {
+            $(function () {
 
                 // a few helper functions
 
@@ -142,24 +142,24 @@
 
                 $('#disks').val(3);
 
-                $('#disks').change(function() {
+                $('#disks').change(function () {
                     setDisks($(this).val());
                 });
 
 
                 // use global options for all sortables
 
-                $.fn.aciSortable.defaults.before = function(item) {
+                $.fn.aciSortable.defaults.before = function (item) {
                     // only allow dragging top disk
                     return !item.prev().length;
                 };
 
-                $.fn.aciSortable.defaults.start = function(item, placeholder, helper) {
+                $.fn.aciSortable.defaults.start = function (item, placeholder, helper) {
                     helper.hide().attr('class', 'aciSortableHelper disk disk' + item.data('index')).css('opacity', 1);
                     item.css('opacity', 0.5);
                 };
 
-                $.fn.aciSortable.defaults.drag = function(item, placeholder, isValid, helper) {
+                $.fn.aciSortable.defaults.drag = function (item, placeholder, isValid, helper) {
                     if (isValid) {
                         helper.hide();
                     } else {
@@ -167,13 +167,13 @@
                     }
                 };
 
-                $.fn.aciSortable.defaults.valid = function(item, hover, before, isContainer, placeholder, helper) {
+                $.fn.aciSortable.defaults.valid = function (item, hover, before, isContainer, placeholder, helper) {
                     placeholder.attr('class', 'aciSortablePlaceholder disk disk' + item.data('index'));
                     // only drop on empty tower or on top of bigger disk
-                    return isContainer || ((before === true) && !hover.prev().length && (hover.data('index') > item.data('index')));
+                    return (isContainer && (before !== null)) || ((before === true) && !hover.prev().length && (hover.data('index') > item.data('index')));
                 };
 
-                $.fn.aciSortable.defaults.end = function(item, hover, placeholder, helper) {
+                $.fn.aciSortable.defaults.end = function (item, hover, placeholder, helper) {
                     if (placeholder.parent().length) {
                         // if placeholder is in DOM then move the item
                         placeholder.after(item).detach();
@@ -193,7 +193,7 @@
                             opacity: 0
                         },
                         {
-                            complete: function() {
+                            complete: function () {
                                 // when completed detach the helper
                                 helper.detach();
                             }
@@ -223,9 +223,9 @@
 
         <script type="text/javascript">
 
-            $(function() {
+            $(function () {
 
-                $('script.code').each(function() {
+                $('script.code').each(function () {
                     $(this).before('<div style="clear:both;margin:10px 0 10px 0"><pre style="padding:20px;border:1px dashed #000;background:#f6f6f6;display:inline-block;"></pre></div>');
                     $(this).prev('div').find('pre').text($(this).text());
                 });

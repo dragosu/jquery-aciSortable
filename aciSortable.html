@@ -351,7 +351,7 @@
                         },
                         valid: function(item, hover, before, isContainer, placeholder, helper) {
                             // the same implementation as the default but without using the options.exclude
-                            if (isContainer) {
+                            if (isContainer && (before !== null)) {
                                 return !hover.hasClass('exclude');
                             } else {
                                 var container = this.containerFrom(hover);
@@ -376,7 +376,7 @@
                                 }
                                 break;
                             case 'valid':
-                                if (params.isContainer) {
+                                if (params.isContainer && (params.before !== null)) {
                                     return !params.hover.hasClass('exclude');
                                 } else {
                                     var container = api.containerFrom(params.hover);
