@@ -1,6 +1,6 @@
 
 /*
- * aciSortable jQuery Plugin v1.7.0
+ * aciSortable jQuery Plugin v1.8.0
  * http://acoderinsights.ro
  *
  * Copyright (c) 2015 Dragos Ursu
@@ -67,10 +67,10 @@
          * @returns {bool} FALSE for non-draggable items
          */
         before: function (item) {
-            if (this._instance.options.exclude) {
+            if (this.options().exclude) {
                 // test if excluded from drag
                 var container = this.containerFrom(item);
-                return !container.is(this._instance.options.exclude) && !item.is(this._instance.options.exclude);
+                return !container.is(this.options().exclude) && !item.is(this.options().exclude);
             }
             return true;
         },
@@ -82,7 +82,7 @@
          */
         start: function (item, placeholder, helper) {
             var clone = item.clone();
-            clone.children(this._instance.options.container).remove();
+            clone.children(this.options().container).remove();
             // copy item text to the helper
             helper.html(clone.text());
         },
@@ -97,13 +97,13 @@
          * @returns {bool} FALSE for a invalid drop target
          */
         valid: function (item, hover, before, isContainer, placeholder, helper) {
-            if (this._instance.options.exclude) {
+            if (this.options().exclude) {
                 // test if excluded from drop
                 if (isContainer && (before !== null)) {
-                    return !hover.is(this._instance.options.exclude);
+                    return !hover.is(this.options().exclude);
                 } else {
                     var container = this.containerFrom(hover);
-                    return !container.is(this._instance.options.exclude);
+                    return !container.is(this.options().exclude);
                 }
             }
             return true;
@@ -126,7 +126,7 @@
          */
         create: function (item, hover) {
             // append a new child container
-            hover.append(this._instance.options.childHolder);
+            hover.append(this.options().childHolder);
             return true;
         },
         /**
@@ -136,7 +136,7 @@
          */
         remove: function (item, hover) {
             // remove the child container
-            hover.children(this._instance.options.childHolderSelector).remove();
+            hover.children(this.options().childHolderSelector).remove();
         },
         /**
          * Called on drag end (the item should be repositioned here based on the placeholder).
@@ -183,25 +183,25 @@
                 return;
             }
             // bind events to respond to the drag operation
-            this._instance.jQuery.on('mousedown' + this._instance.nameSpace, this._instance.options.item, this.proxy(function (event) {
+            this._instance.jQuery.on('mousedown' + this._instance.nameSpace, this.options().item, this.proxy(function (event) {
                 // mousedown on a item
                 var target = $(event.target);
-                if (!target.is(this._instance.options.handle) || target.is(this._instance.options.disable)) {
+                if (!target.is(this.options().handle) || target.is(this.options().disable)) {
                     return;
                 }
-                if (!target.is(this._instance.options.disable)) {
+                if (!target.is(this.options().disable)) {
                     // prevent text selection
                     event.preventDefault();
                 }
-                if (target.is(this._instance.options.container)) {
+                if (target.is(this.options().container)) {
                     // no drag for containers
                     $(window.document.body).css('cursor', 'no-drop');
                 } else {
                     this._delayStart(event);
                 }
-            })).on('mousemove' + this._instance.nameSpace, this._instance.options.item, this.proxy(function (event) {
+            })).on('mousemove' + this._instance.nameSpace, this.options().item, this.proxy(function (event) {
                 // mousemove over a item
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     event.stopPropagation();
                     this._instance.isContainer = false;
                     var item = this.itemFrom(event.target);
@@ -209,7 +209,7 @@
                         // the parent can't be dropped over his childrens
                         this._instance.hoverItem = null;
                     } else {
-                        if (this._instance.options.dropPosition === null) {
+                        if (this.options().dropPosition === null) {
                             this._instance.hoverItem = item;
                         } else {
                             var container = this.containerFrom(event.target);
@@ -218,9 +218,9 @@
                     }
                 }
                 this._drag(event);
-            })).on('mousemove' + this._instance.nameSpace, this._instance.options.container, this.proxy(function (event) {
+            })).on('mousemove' + this._instance.nameSpace, this.options().container, this.proxy(function (event) {
                 // mousemove over a sortable container
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     event.stopPropagation();
                     var container = this.containerFrom(event.target);
                     if (this._instance.item.has(container).length) {
@@ -233,7 +233,7 @@
                             this._instance.isContainer = true;
                         } else {
                             this._instance.isContainer = false;
-                            if (this._instance.options.dropPosition === null) {
+                            if (this.options().dropPosition === null) {
                                 this._instance.hoverItem = this._closestFrom(event);
                             } else {
                                 this._dropPosition(container);
@@ -248,14 +248,14 @@
             // ensure we proceess on move/end outside of container
             $(window.document).bind('mousemove' + this._instance.nameSpace + this._instance.index, this.proxy(function (event) {
                 // mousemove outside of the sortable
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     // can't drag outside of container
                     this._instance.hoverItem = null;
                     this._drag(event);
                 }
-            })).on('mousemove' + this._instance.nameSpace + this._instance.index, this._instance.options.helperSelector, this.proxy(function (event) {
+            })).on('mousemove' + this._instance.nameSpace + this._instance.index, this.options().helperSelector, this.proxy(function (event) {
                 // mousemove over the helper
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     var element = this._fromCursor(event);
                     if (element) {
                         this._instance.jQuery.trigger($.Event('mousemove', {
@@ -267,13 +267,13 @@
                     }
                 }
             })).bind('selectstart' + this._instance.nameSpace + this._instance.index, this.proxy(function (event) {
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     // prevent text selection
                     event.preventDefault();
                 }
             })).bind('mouseup' + this._instance.nameSpace + this._instance.index, this.proxy(function () {
                 // drag ends here
-                if (this._instance.sorting) {
+                if (this.isActive()) {
                     this._end();
                 } else {
                     this._instance.item = null;
@@ -284,7 +284,7 @@
         },
         // run when dropPosition is enabled
         _dropPosition: function (container) {
-            if (this._instance.options.dropPosition == -1) {
+            if (this.options().dropPosition == -1) {
                 this._instance.hoverItem = this._firstItem(container);
             } else {
                 this._instance.hoverItem = this._lastItem(container);
@@ -296,20 +296,20 @@
         },
         // get first item
         _firstItem: function (container) {
-            return container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).first();
+            return container.children(this.options().item).not(this.options().placeholderSelector).first();
         },
         // get last item
         _lastItem: function (container) {
-            return container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).last();
+            return container.children(this.options().item).not(this.options().placeholderSelector).last();
         },
         // get closest item from cursor
         _closestFrom: function (event) {
             var item = null;
             var parent = $(event.target);
-            if (this._instance.options.vertical) {
+            if (this.options().vertical) {
                 var scroll = $(window).scrollTop();
                 var min = parent.height();
-                parent.find(this._instance.options.item).not(this._instance.options.placeholderSelector).each(function () {
+                parent.find(this.options().item).not(this.options().placeholderSelector).each(function () {
                     var rect = this.getBoundingClientRect();
                     var diff = window.Math.abs(scroll + rect.top + (rect.bottom - rect.top) / 2 - event.pageY);
                     if (diff < min) {
@@ -320,7 +320,7 @@
             } else {
                 var scroll = $(window).scrollLeft();
                 var min = parent.width();
-                parent.find(this._instance.options.item).not(this._instance.options.placeholderSelector).each(function () {
+                parent.find(this.options().item).not(this.options().placeholderSelector).each(function () {
                     var rect = this.getBoundingClientRect();
                     var diff = window.Math.abs(scroll + rect.left + (rect.right - rect.left) / 2 - event.pageX);
                     if (diff < min) {
@@ -334,7 +334,7 @@
         // get element from cursor
         _fromCursor: function (event) {
             if (this._instance.helper && this._instance.helper.parent().length) {
-                if ($(event.target).closest(this._instance.options.helperSelector).length) {
+                if ($(event.target).closest(this.options().helperSelector).length) {
                     this._instance.helper.hide();
                     var element = window.document.elementFromPoint(event.clientX, event.clientY);
                     this._instance.helper.show();
@@ -347,13 +347,13 @@
         },
         // init connect sortables
         _initConnect: function () {
-            if (this._instance.options.connectDrop) {
-                $(window.document).on('mousemove' + this._instance.nameSpace + 'connect' + this._instance.index, this._instance.options.connectDrop, this.proxy(function (event) {
+            if (this.options().connectDrop) {
+                $(window.document).on('mousemove' + this._instance.nameSpace + 'connect' + this._instance.index, this.options().connectDrop, this.proxy(function (event) {
                     // mousemove over the related sortables
                     var element = $(event.target);
-                    if (this._instance.sorting && !this._instance.jQuery.has(element).length) {
-                        if (!element.is(this._instance.options.connectDrop)) {
-                            element = element.closest(this._instance.options.connectDrop);
+                    if (this.isActive() && !this._instance.jQuery.has(element).length) {
+                        if (!element.is(this.options().connectDrop)) {
+                            element = element.closest(this.options().connectDrop);
                         }
                         this._connect(element);
                     }
@@ -366,14 +366,14 @@
         },
         // init simple drop
         _initSimple: function () {
-            if (this._instance.options.simpleDrop) {
-                $(window.document).on('mousemove' + this._instance.nameSpace + 'simple' + this._instance.index, this._instance.options.simpleDrop, this.proxy(function (event) {
+            if (this.options().simpleDrop) {
+                $(window.document).on('mousemove' + this._instance.nameSpace + 'simple' + this._instance.index, this.options().simpleDrop, this.proxy(function (event) {
                     // mousemove over the related elements
                     var element = $(event.target);
-                    if (this._instance.sorting && !this._instance.jQuery.has(element).length) {
+                    if (this.isActive() && !this._instance.jQuery.has(element).length) {
                         event.stopPropagation();
-                        if (!element.is(this._instance.options.simpleDrop)) {
-                            element = element.closest(this._instance.options.simpleDrop);
+                        if (!element.is(this.options().simpleDrop)) {
+                            element = element.closest(this.options().simpleDrop);
                         }
                         this._instance.hoverItem = element;
                         this._instance.isContainer = false;
@@ -437,30 +437,49 @@
             if (this._instance.jQuery.has(element).length) {
                 return this._instance.jQuery;
             }
-            if (this._instance.options.connectDrop) {
-                return $(element).closest(this._instance.options.connectDrop);
+            if (this.options().connectDrop) {
+                return $(element).closest(this.options().connectDrop);
             }
             return $();
         },
         // return item from element
         itemFrom: function (element) {
-            return $(element).closest(this._instance.options.item);
+            return $(element).closest(this.options().item);
         },
         // return container from element
         containerFrom: function (element) {
-            return $(element).closest(this._instance.options.container);
+            return $(element).closest(this.options().container);
         },
         // test if item has childrens
         hasChildrens: function (item) {
-            return item.children(this._instance.options.container).children(this._instance.options.item).not(this._instance.options.placeholderSelector).length > 0;
+            return item.children(this.options().container).children(this.options().item).not(this.options().placeholderSelector).length > 0;
         },
         // test if item has container
         hasContainer: function (item) {
-            return item.children(this._instance.options.container).length > 0;
+            return item.children(this.options().container).length > 0;
         },
         // test if container is empty
         isEmpty: function (container) {
-            return !container.children(this._instance.options.item).not(this._instance.options.placeholderSelector).length;
+            return !container.children(this.options().item).not(this.options().placeholderSelector).length;
+        },
+        // test if drag&drop is active
+        isActive: function () {
+            return this._instance.sorting;
+        },
+        // cancel the drag&drop (the drop is canceled)
+        cancel: function () {
+            if (this.isActive()) {
+                if (this._instance.placeholder.parent().length) {
+                    this._instance.placeholder.detach();
+                }
+                this._end();
+            }
+        },
+        // end the drag&drop (the drop is processed) 
+        end: function () {
+            if (this.isActive()) {
+                this._end();
+            }
         },
         // start drag with a delay
         _delayStart: function (event) {
@@ -473,7 +492,7 @@
                     x: event.pageX,
                     y: event.pageY
                 };
-                if (this._instance.options.relative) {
+                if (this.options().relative) {
                     var top = $(window).scrollTop();
                     var left = $(window).scrollLeft();
                     var rect = this._instance.item.get(0).getBoundingClientRect();
@@ -496,17 +515,17 @@
         _start: function () {
             this._instance.sorting = true;
             if (!this._instance.placeholder) {
-                this._instance.placeholder = $(this._instance.options.placeholder);
+                this._instance.placeholder = $(this.options().placeholder);
             }
             if (!this._instance.helper) {
-                this._instance.helper = $(this._instance.options.helper);
+                this._instance.helper = $(this.options().helper);
             }
             this._call('start', {
                 item: this._instance.item,
                 placeholder: this._instance.placeholder,
                 helper: this._instance.helper
             });
-            if (this._instance.options.gluedPlaceholder) {
+            if (this.options().gluedPlaceholder) {
                 this._instance.item.after(this._instance.placeholder);
             }
             $(window.document.body).append(this._instance.helper);
@@ -514,8 +533,8 @@
         },
         // check if should update the position
         _minDistance: function () {
-            return (window.Math.abs(this._instance.pointStart.x - this._instance.pointNow.x) > this._instance.options.distance) ||
-                    (window.Math.abs(this._instance.pointStart.y - this._instance.pointNow.y) > this._instance.options.distance);
+            return (window.Math.abs(this._instance.pointStart.x - this._instance.pointNow.x) > this.options().distance) ||
+                    (window.Math.abs(this._instance.pointStart.y - this._instance.pointNow.y) > this.options().distance);
         },
         // process drag
         _drag: function (event) {
@@ -523,7 +542,7 @@
                 x: event.pageX,
                 y: event.pageY
             };
-            if (this._instance.sorting) {
+            if (this.isActive()) {
                 // we started sorting
                 this._helper();
                 this._placeholder();
@@ -545,7 +564,7 @@
         },
         // test if drag position is valid
         _isValid: function (before, create) {
-            if ((!this._instance.options.draggable && this.hasItem(this._instance.item) && (this._instance.isContainer || (this.containerFrom(this._instance.item).get(0) !=
+            if ((!this.options().draggable && this.hasItem(this._instance.item) && (this._instance.isContainer || (this.containerFrom(this._instance.item).get(0) !=
                     this.containerFrom(this._instance.hoverItem).get(0)))) || this._instance.item.has(this._instance.hoverItem).length) {
                 return false;
             }
@@ -575,7 +594,7 @@
             })) {
                 this._instance.childItem = this._instance.hoverItem;
                 // select the added container
-                this._instance.hoverItem = this._instance.hoverItem.children(this._instance.options.childHolderSelector);
+                this._instance.hoverItem = this._instance.hoverItem.children(this.options().childHolderSelector);
                 this._instance.isContainer = true;
                 this._placeholder();
                 return true;
@@ -614,13 +633,13 @@
         },
         // test if over a simpleDrop target
         _isSimple: function () {
-            return this._instance.options.simpleDrop && this._instance.hoverItem && this._instance.hoverItem.is(this._instance.options.simpleDrop);
+            return this.options().simpleDrop && this._instance.hoverItem && this._instance.hoverItem.is(this.options().simpleDrop);
         },
         // update placeholder
         _placeholder: function () {
             this._instance.pointStart = this._instance.pointNow;
             if (this._instance.hoverItem) {
-                if (this._instance.hoverItem.is(this._instance.options.placeholderSelector)) {
+                if (this._instance.hoverItem.is(this.options().placeholderSelector)) {
                     return;
                 }
                 if (this._instance.isContainer) {
@@ -637,14 +656,14 @@
                     // do not show if hover is the dragged item
                     var before = false, create = false;
                     var rect = this._instance.hoverItem.get(0).getBoundingClientRect();
-                    var container = this._instance.hoverItem.children(this._instance.options.container);
-                    if (this._instance.options.vertical) {
+                    var container = this._instance.hoverItem.children(this.options().container);
+                    if (this.options().vertical) {
                         var scroll = $(window).scrollTop();
                         // take out the child container height
                         var bottom = rect.bottom - ((container.length && container.is(':visible')) ? container.outerHeight(true) : 0);
-                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
+                        if (this.options().child && (this.options().draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (bottom - rect.top) * (0.5 - this._instance.options.child / 200);
+                            var distance = (bottom - rect.top) * (0.5 - this.options().child / 200);
                             if ((this._instance.pointNow.y > scroll + rect.top + distance) && (this._instance.pointNow.y < scroll + bottom - distance)) {
                                 create = container.length ? null : true;
                             }
@@ -657,9 +676,9 @@
                         var scroll = $(window).scrollLeft();
                         // take out the child container width
                         var right = rect.right - ((container.length && container.is(':visible')) ? container.outerWidth(true) : 0);
-                        if (this._instance.options.child && (this._instance.options.draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
+                        if (this.options().child && (this.options().draggable || !this.hasItem(this._instance.item)) && !this.hasChildrens(this._instance.hoverItem)) {
                             // check if we should create a container
-                            var distance = (right - rect.left) * (0.5 - this._instance.options.child / 200);
+                            var distance = (right - rect.left) * (0.5 - this.options().child / 200);
                             if ((this._instance.pointNow.x > scroll + rect.left + distance) || (this._instance.pointNow.x < scroll + right - distance)) {
                                 create = container.length ? null : true;
                             }
@@ -669,9 +688,9 @@
                             before = true;
                         }
                     }
-                    if (this._instance.options.dropPosition == -1) {
+                    if (this.options().dropPosition == -1) {
                         before = true;
-                    } else if (this._instance.options.dropPosition == 1) {
+                    } else if (this.options().dropPosition == 1) {
                         before = false;
                     }
                     if (create !== false) {
@@ -686,7 +705,7 @@
                         this._onRemove(this._instance.hoverItem);
                         this._instance.childItem = this._instance.hoverItem;
                         // select the container
-                        this._instance.hoverItem = this._instance.hoverItem.children(this._instance.options.childHolderSelector);
+                        this._instance.hoverItem = this._instance.hoverItem.children(this.options().childHolderSelector);
                         this._instance.isContainer = true;
                         if (this._wasValid(null, true)) {
                             return;
@@ -743,7 +762,7 @@
                 };
             }
             // no drop-target
-            if (!this._instance.options.gluedPlaceholder) {
+            if (!this.options().gluedPlaceholder) {
                 this._instance.placeholder.detach();
             }
             $(window.document.body).css('cursor', 'no-drop');
@@ -751,8 +770,8 @@
         },
         // on prev position item drag
         _prevItem: function () {
-            var prevItem = this._instance.hoverItem.prev(this._instance.options.item);
-            if (this._instance.options.gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
+            var prevItem = this._instance.hoverItem.prev(this.options().item);
+            if (this.options().gluedPlaceholder || (prevItem.get(0) != this._instance.item.get(0))) {
                 if (!this._isSimple()) {
                     this._instance.hoverItem.before(this._instance.placeholder);
                 }
@@ -763,8 +782,8 @@
         },
         // on next position item drag
         _nextItem: function () {
-            var nextItem = this._instance.hoverItem.next(this._instance.options.item);
-            if (this._instance.options.gluedPlaceholder || (nextItem.get(0) != this._instance.item.get(0))) {
+            var nextItem = this._instance.hoverItem.next(this.options().item);
+            if (this.options().gluedPlaceholder || (nextItem.get(0) != this._instance.item.get(0))) {
                 if (!this._isSimple()) {
                     this._instance.hoverItem.after(this._instance.placeholder);
                 }
@@ -776,16 +795,16 @@
         // process scrolling for the parent
         _scrollParent: function (parent) {
             if (parent) {
-                parent = parent.parents(this._instance.options.scrollParent).first();
+                parent = parent.parents(this.options().scrollParent).first();
             } else {
-                var parent = this._instance.jQuery.parents(this._instance.options.scrollParent).first();
+                var parent = this._instance.jQuery.parents(this.options().scrollParent).first();
             }
             if (parent.length) {
                 if (!this._scrollContainer(parent)) {
                     return parent;
                 }
             } else {
-                if (this._instance.options.scrollParent.match(/^(.*,)?window(,.*)?$/)) {
+                if (this.options().scrollParent.match(/^(.*,)?window(,.*)?$/)) {
                     this._scrollContainer($(window), true);
                 }
             }
@@ -800,7 +819,7 @@
             var updated = false;
             var top = $(window).scrollTop(), left = $(window).scrollLeft(), height = container.height(), width = container.width();
             var scrollHeight = isWindow ? window.document.body.scrollHeight : container.get(0).scrollHeight;
-            var margin = window.Math.min(this._instance.options.scroll, height / 3);
+            var margin = window.Math.min(this.options().scroll, height / 3);
             var rect = isWindow ? {
                 left: 0,
                 top: 0,
@@ -824,7 +843,7 @@
                 }
             }
             var scrollWidth = isWindow ? window.document.body.scrollWidth : container.get(0).scrollWidth;
-            margin = window.Math.min(this._instance.options.scroll, width / 3);
+            margin = window.Math.min(this.options().scroll, width / 3);
             if ((scrollWidth > width) && (this._instance.pointNow.y > top + rect.top) && (this._instance.pointNow.y < top + rect.bottom)) {
                 var now = container.scrollLeft();
                 if (this._instance.pointNow.x < left + rect.left + margin) {
@@ -853,7 +872,7 @@
                 return;
             }
             this._instance.scroll = true;
-            if (!this._scrollContainer(this._instance.jQuery) && this._instance.options.scrollParent) {
+            if (!this._scrollContainer(this._instance.jQuery) && this.options().scrollParent) {
                 var parent = null;
                 while (true) {
                     parent = this._scrollParent(parent);
@@ -862,7 +881,7 @@
                     }
                 }
             }
-            if (this._instance.sorting) {
+            if (this.isActive()) {
                 window.setTimeout(this.proxy(function () {
                     this._instance.scroll = false;
                     this._helper();
@@ -873,7 +892,7 @@
         },
         // update helper
         _helper: function () {
-            if (this._instance.options.scroll) {
+            if (this.options().scroll) {
                 this._scroll();
             }
             this._instance.helper.css({
@@ -884,8 +903,8 @@
         // end drag
         _end: function () {
             if (this._instance.placeholder.parent().length) {
-                if ((this._instance.placeholder.prev(this._instance.options.item).get(0) == this._instance.item.get(0)) ||
-                        (this._instance.placeholder.next(this._instance.options.item).get(0) == this._instance.item.get(0))) {
+                if ((this._instance.placeholder.prev(this.options().item).get(0) == this._instance.item.get(0)) ||
+                        (this._instance.placeholder.next(this.options().item).get(0) == this._instance.item.get(0))) {
                     // when is before/after the dragged item
                     this._instance.placeholder.detach();
                 }
@@ -915,16 +934,16 @@
             if (this.wasInit()) {
                 switch (option) {
                     case 'connectDrop':
-                        if (value != this._instance.options.connectDrop) {
+                        if (value != this.options().connectDrop) {
                             this._doneConnect();
-                            this._instance.options.connectDrop = value;
+                            this.options().connectDrop = value;
                             this._initConnect();
                         }
                         break;
                     case 'simpleDrop':
-                        if (value != this._instance.options.simpleDrop) {
+                        if (value != this.options().simpleDrop) {
                             this._doneSimple();
-                            this._instance.options.simpleDrop = value;
+                            this.options().simpleDrop = value;
                             this._initSimple();
                         }
                         break;

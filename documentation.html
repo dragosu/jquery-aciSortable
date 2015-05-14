@@ -3,7 +3,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="language" content="en" />
-        <title>aciSortable v1.7.0 - Sort a list of items (including nested items) with jQuery</title>
+        <title>aciSortable v1.8.0 - Sort a list of items (including nested items) with jQuery</title>
         <meta name="description" content="aciSortable API documentation" />
         <style type="text/css">
             html {
@@ -147,14 +147,20 @@
     </head>
 
     <body>
-        <h1>aciSortable API v1.7.0</h1>
+        <h1>aciSortable API v1.8.0</h1>
 
-<div class="api"><span class="toc"><a title=".containerFrom (element)" href="#.containerFrom">.containerFrom -  Returns the parent element as indicated by options.container...</a><br><a title=".destroy ()" href="#.destroy">.destroy -  Destroys the aciSortable instance.
+<div class="api"><span class="toc"><a title=".cancel" href="#.cancel">.cancel -  Cancel the drag&amp;drop.
+                </a><br><a title=".containerFrom (element)" href="#.containerFrom">.containerFrom -  Returns the parent element as indicated by options.container...</a><br><a title=".destroy ()" href="#.destroy">.destroy -  Destroys the aciSortable instance.
+                </a><br><a title=".end" href="#.end">.end -  Ends the drag&amp;drop.
                 </a><br><a title=".hasChildrens (item)" href="#.hasChildrens">.hasChildrens -  Test if the element item has childrens.
-
+                    
                 </a><br><a title=".hasContainer (item)" href="#.hasContainer">.hasContainer -  Test if the element item contains a parent element options.container...</a><br><a title=".hasItem (item)" href="#.hasItem">.hasItem -  Test if the element item exists in the current aciSortable instance or comes...</a><br><a title=".init ()" href="#.init">.init -  Init the aciSortable plugin.
+                </a><br><a title=".isActive" href="#.isActive">.isActive -  Test if the drag&amp;drop is active.
                 </a><br><a title=".isEmpty (container)" href="#.isEmpty">.isEmpty -  Test if the container has options.item childrens...</a><br><a title=".itemFrom (element)" href="#.itemFrom">.itemFrom -  Returns the parent element as indicated by options.item...</a><br><a title=".sortableFrom (element)" href="#.sortableFrom">.sortableFrom -  Returns the element under which aciSortable was initialized...</a><br><a title=".wasInit ()" href="#.wasInit">.wasInit -  Returns TRUE if the plugin has been initialized.
                 </a><br></span>
+
+                <a name=".cancel"></a><div><span>.cancel</span> Cancel the drag&amp;drop.
+                </div>                                
 
                 <a name=".containerFrom"></a><div><span>.containerFrom (element)</span> Returns the parent element as indicated by <b>options.container</b>.
                     <span class="where">
@@ -165,6 +171,9 @@
 
                 <a name=".destroy"></a><div><span>.destroy ()</span> Destroys the aciSortable instance.
                 </div>
+                
+                <a name=".end"></a><div><span>.end</span> Ends the drag&amp;drop.
+                </div>                                
 
                 <a name=".hasChildrens"></a><div><span>.hasChildrens (item)</span> Test if the element <b>item</b> has childrens.
                     <span class="where">
@@ -190,6 +199,9 @@
                 <a name=".init"></a><div><span>.init ()</span> Init the aciSortable plugin.
                 </div>
 
+                <a name=".isActive"></a><div><span>.isActive</span> Test if the drag&amp;drop is active.
+                </div>                      
+                
                 <a name=".isEmpty"></a><div><span>.isEmpty (container)</span> Test if the <b>container</b> has <b>options.item</b> childrens.
                     <span class="where">
                         where:
@@ -216,7 +228,7 @@
 
             </div>
 
-        <p>aciSortable jQuery Plugin v1.7.0</p>
+        <p>aciSortable jQuery Plugin v1.8.0</p>
         <p>http://acoderinsights.ro</p>
 
         <p>Copyright (c) 2015 Dragos Ursu</p>
